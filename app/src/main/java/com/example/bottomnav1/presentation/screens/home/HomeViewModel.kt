@@ -53,7 +53,7 @@ class HomeViewModel(private val authRepo: AuthRepo, private val repo: ContactRep
         }
     }
 
-        // Define ViewModel factory in a companion object
+    // Define ViewModel factory in a companion object
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {

@@ -28,4 +28,9 @@
 
     <string name="back_button">Back</string>
     <string name="submit_button">Submit</string>
+
+    <!-- BulkPrep Screen -->
+    <string name="bulk_prep">Bulk Prep</string>
+    <string name="start_bulk_prep">Start Bulk Prep</string>
+
 </resources>

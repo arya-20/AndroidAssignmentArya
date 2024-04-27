@@ -26,7 +26,8 @@ class AuthRepository(private val auth: FirebaseAuth): AuthRepo {
         return try {
             auth.createUserWithEmailAndPassword(email, password).await()
             Response.Success(true)
-        } catch (e: Exception) {
+        }
+        catch (e: Exception) {
             Response.Failure(e)
         }
     }

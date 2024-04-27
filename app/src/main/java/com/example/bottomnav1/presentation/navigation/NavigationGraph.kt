@@ -1,5 +1,7 @@
 package com.example.bottomnav1.presentation.navigation
 
+import BulkPrepScreen
+import HomeScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -10,7 +12,6 @@ import com.example.bottomnav1.core.ContactApplication
 import com.example.bottomnav1.data.contact1.Contact
 import com.example.bottomnav1.presentation.screens.add.AddScreen
 import com.example.bottomnav1.presentation.screens.edit.EditScreen
-import com.example.bottomnav1.presentation.screens.home.HomeScreen
 import com.example.bottomnav1.presentation.screens.login.LoginScreen
 import com.example.bottomnav1.presentation.screens.signup.SignUpScreen
 import kotlin.system.exitProcess
@@ -22,6 +23,9 @@ sealed class NavScreen(var icon:Int, var route:String){
     data object Exit: NavScreen(R.drawable.logout, "Logout")
     data object Login: NavScreen(R.drawable.home, "Login")
     data object SignUp: NavScreen(R.drawable.home, "SignUp")
+    data object BulkPrep: NavScreen(R.drawable.home, "BulkPrep")
+
+
 }
 
 @Composable
@@ -51,12 +55,20 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 onIndexChange = {
                     selectedContact = it
                 },
-                onClickToEdit = {
-                    if(selectedContact!=null) navController.navigate("edit")
-                },
-
+                onClickToBulkPrep = {
+                    navController.navigate(NavScreen.BulkPrep.route)
+                }
             )
         }
+        composable(NavScreen.BulkPrep.route) {
+            BulkPrepScreen(
+                navController = navController
+            ) {
+                navController.popBackStack()
+            }
+        }
+
+
         composable(NavScreen.Add.route) {
             AddScreen(navController = navController,
                         onClickToHome ={ navController.popBackStack()})

@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-
+//creates a clickable text box with customizable content and appearance
 @Composable
 fun ItemView(index: Int,
              item: String,

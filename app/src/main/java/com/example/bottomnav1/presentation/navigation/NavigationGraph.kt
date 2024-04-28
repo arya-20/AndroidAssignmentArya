@@ -2,6 +2,7 @@ package com.example.bottomnav1.presentation.navigation
 
 import BulkPrepScreen
 import HomeScreen
+import TrackScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -24,6 +25,7 @@ sealed class NavScreen(var icon:Int, var route:String){
     data object Login: NavScreen(R.drawable.home, "Login")
     data object SignUp: NavScreen(R.drawable.home, "SignUp")
     data object BulkPrep: NavScreen(R.drawable.home, "BulkPrep")
+    data object Track: NavScreen(R.drawable.home, "Track")
 
 
 }
@@ -58,6 +60,10 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 onClickToBulkPrep = {
                     navController.navigate(NavScreen.BulkPrep.route)
                 }
+                ,
+                onClickToTrack = {
+                    navController.navigate(NavScreen.Track.route)
+                }
             )
         }
         composable(NavScreen.BulkPrep.route) {
@@ -67,6 +73,15 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 navController.popBackStack()
             }
         }
+
+        composable(NavScreen.Track.route) {
+            TrackScreen(
+                navController = navController
+            ) {
+                navController.popBackStack()
+            }
+        }
+
 
 
         composable(NavScreen.Add.route) {

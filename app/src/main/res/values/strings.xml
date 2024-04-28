@@ -33,4 +33,9 @@
     <string name="bulk_prep">Bulk Prep</string>
     <string name="start_bulk_prep">Start Bulk Prep</string>
 
+    <!-- track Screen -->
+    <string name="track">Track</string>
+    <string name="start_track">Start Track</string>
+
+
 </resources>

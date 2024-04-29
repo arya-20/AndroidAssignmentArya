@@ -2,6 +2,7 @@ package com.example.bottomnav1.presentation.navigation
 
 import BulkPrepScreen
 import HomeScreen
+import SettingsScreen
 import TrackScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -26,6 +27,7 @@ sealed class NavScreen(var icon:Int, var route:String){
     data object SignUp: NavScreen(R.drawable.home, "SignUp")
     data object BulkPrep: NavScreen(R.drawable.home, "BulkPrep")
     data object Track: NavScreen(R.drawable.home, "Track")
+    data object Settings: NavScreen(R.drawable.settings, "Settings")
 
 
 }
@@ -73,7 +75,6 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 navController.popBackStack()
             }
         }
-
         composable(NavScreen.Track.route) {
             TrackScreen(
                 navController = navController
@@ -97,6 +98,13 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                             }
                         })
         }
+        composable(NavScreen.Settings.route) {
+            SettingsScreen(navController = navController,
+                onClickToHome = { navController.popBackStack() })
+        }
+
+
+
         composable(NavScreen.Exit.route) {
             ContactApplication.container.authRepository.signOut()
             exitProcess(0)

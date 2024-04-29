@@ -53,7 +53,7 @@ fun BottomNavBar(navController: NavController) {
 private fun createListOfItems(): List<NavScreen> {
     return listOf(
         NavScreen.Home,
-        NavScreen.Add,
+        NavScreen.Settings,
         NavScreen.Exit
     )
 }

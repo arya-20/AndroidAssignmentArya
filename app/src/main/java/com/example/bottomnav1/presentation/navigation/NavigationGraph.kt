@@ -4,6 +4,9 @@ import BulkPrepScreen
 import HomeScreen
 import SettingsScreen
 import TrackScreen
+import VeganScreen
+import WeightGainScreen
+import WeightLossScreen
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -18,6 +21,7 @@ import com.example.bottomnav1.presentation.screens.login.LoginScreen
 import com.example.bottomnav1.presentation.screens.signup.SignUpScreen
 import kotlin.system.exitProcess
 
+
 sealed class NavScreen(var icon:Int, var route:String){
     data object Home: NavScreen(R.drawable.home, "Home")
     data object Add: NavScreen(R.drawable.add, "Add")
@@ -27,6 +31,9 @@ sealed class NavScreen(var icon:Int, var route:String){
     data object SignUp: NavScreen(R.drawable.home, "SignUp")
     data object BulkPrep: NavScreen(R.drawable.home, "BulkPrep")
     data object Track: NavScreen(R.drawable.home, "Track")
+    data object WeightLoss: NavScreen(R.drawable.home, "WeightLoss")
+    data object WeightGain: NavScreen(R.drawable.home, "WeightGain")
+    data object Vegan: NavScreen(R.drawable.home, "Vegan")
     data object Settings: NavScreen(R.drawable.settings, "Settings")
 
 
@@ -61,15 +68,45 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 },
                 onClickToBulkPrep = {
                     navController.navigate(NavScreen.BulkPrep.route)
-                }
-                ,
+                },
+                onClickToWeightLoss = {
+                    navController.navigate(NavScreen.WeightLoss.route)
+                },
+                onClickToWeightGain = {
+                    navController.navigate(NavScreen.WeightGain.route)
+                },
+                onClickToVegan = {
+                    navController.navigate(NavScreen.Vegan.route)
+                },
                 onClickToTrack = {
                     navController.navigate(NavScreen.Track.route)
                 }
+
             )
         }
         composable(NavScreen.BulkPrep.route) {
             BulkPrepScreen(
+                navController = navController
+            ) {
+                navController.popBackStack()
+            }
+        }
+        composable(NavScreen.WeightLoss.route) {
+            WeightLossScreen(
+                navController = navController
+            ) {
+                navController.popBackStack()
+            }
+        }
+        composable(NavScreen.WeightGain.route) {
+            WeightGainScreen(
+                navController = navController
+            ) {
+                navController.popBackStack()
+            }
+        }
+        composable(NavScreen.Vegan.route) {
+            VeganScreen(
                 navController = navController
             ) {
                 navController.popBackStack()
@@ -82,8 +119,6 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 navController.popBackStack()
             }
         }
-
-
 
         composable(NavScreen.Add.route) {
             AddScreen(navController = navController,
@@ -99,8 +134,8 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                         })
         }
         composable(NavScreen.Settings.route) {
-            SettingsScreen(navController = navController,
-                onClickToHome = { navController.popBackStack() })
+            SettingsScreen(
+                navController = navController,)
         }
 
 

@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.bottomnav1.R
 import com.example.bottomnav1.presentation.components.CustomButton
@@ -27,7 +29,6 @@ fun SignUpScreen(vm: SignUpViewModel = viewModel(factory = SignUpViewModel.Facto
     val keyboard = LocalSoftwareKeyboardController.current
     Scaffold(
         content = { padding ->
-            Text(text = "Enter details to sign up")
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -35,6 +36,17 @@ fun SignUpScreen(vm: SignUpViewModel = viewModel(factory = SignUpViewModel.Facto
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                Text(
+                    text = "Enter details to sign up",
+                    fontSize = 24.sp,
+                    textAlign = TextAlign.Center
+                )
+                SmallSpacer()
+                SmallSpacer()
+                SmallSpacer()
+                SmallSpacer()
+
+
                 CustomTextField(
                     stringResource(R.string.email),
                     text = vm.email,
@@ -43,7 +55,6 @@ fun SignUpScreen(vm: SignUpViewModel = viewModel(factory = SignUpViewModel.Facto
                     stringResource(R.string.email_error_message),
                     errorPresent = vm.emailIsValid()
                 )
-                SmallSpacer()
                 CustomTextField(
                     stringResource(R.string.password),
                     text = vm.password,
@@ -60,6 +71,7 @@ fun SignUpScreen(vm: SignUpViewModel = viewModel(factory = SignUpViewModel.Facto
                         vm.signUpWithEmailAndPassword()
                     }
                 )
+                SmallSpacer()
                 Row {
                     CustomButton(
                         stringResource(R.string.back_button),

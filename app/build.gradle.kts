@@ -66,6 +66,7 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx:20.3.1")
 
     implementation(platform("com.google.firebase:firebase-bom:32.7.4"))
+    implementation("com.google.firebase:firebase-firestore")
     implementation ("com.google.firebase:firebase-database-ktx")
 
     //Notification used in SignUpViewModel

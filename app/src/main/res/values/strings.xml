@@ -13,14 +13,19 @@
     <string name="add">Add</string>
     <!-- Edit Screen -->
     <string name="edit">Edit</string>
+
+    <!-- start Screen -->
+    <string name="start_title">Welcome to</string>
+    <string name="start_title2">Rapid Meal Prep</string>
+    <string name="start">Start</string>
     <!-- Home Screen -->
     <string name="home">Home</string>
     <string name="delete">Delete</string>
     <!-- LoginScreen -->
     <string name="email">Email</string>
-    <string name="email_error_message">Please insert a valid email.</string>
+    <string name="email_error_message">Incorrect Email.</string>
     <string name="password">Password</string>
-    <string name="password_error_message">Please insert a valid password</string>
+    <string name="password_error_message">Incorrect Password</string>
     <!-- Sign Up Screen -->
     <string name="verify_email">Verify email</string>
     <string name="forgot_password">Forgot password</string>

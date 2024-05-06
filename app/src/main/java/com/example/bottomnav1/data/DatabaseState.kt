@@ -5,3 +5,7 @@ data class DatabaseState<T>(
     val isLoading: Boolean = false,
     val errorMessage: String=String()
 )
+
+data class BulkPrepButtons(
+    val buttonNames: List<String>
+)

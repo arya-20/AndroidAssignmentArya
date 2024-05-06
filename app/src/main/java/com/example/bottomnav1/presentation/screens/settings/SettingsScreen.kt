@@ -11,7 +11,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -28,10 +27,9 @@ import com.example.bottomnav1.presentation.screens.settings.SettingsViewModel
 fun SettingsScreen(
     navController: NavHostController,
     viewModel: SettingsViewModel = viewModel(),
-
-    ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-
+) {
+    //val keyboardController = LocalSoftwareKeyboardController.current
+    val isDarkModeEnabled = viewModel.isDarkModeEnabled()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -61,9 +59,9 @@ fun SettingsScreen(
                     modifier = Modifier.padding(end = 20.dp)
                 )
                 Switch(
-                    checked = viewModel.isDarkModeEnabled(),
+                    checked = isDarkModeEnabled,
                     onCheckedChange = { isChecked ->
-                        viewModel.toggleDarkMode()
+
                     }
                 )
             }

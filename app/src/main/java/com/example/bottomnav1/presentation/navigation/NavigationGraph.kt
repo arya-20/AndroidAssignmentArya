@@ -1,8 +1,8 @@
 package com.example.bottomnav1.presentation.navigation
 
-import BulkPrepScreen
 import HomeScreen
 import SettingsScreen
+import StartScreen
 import TrackScreen
 import VeganScreen
 import WeightGainScreen
@@ -16,6 +16,7 @@ import com.example.bottomnav1.R
 import com.example.bottomnav1.core.ContactApplication
 import com.example.bottomnav1.data.contact1.Contact
 import com.example.bottomnav1.presentation.screens.add.AddScreen
+import com.example.bottomnav1.presentation.screens.bulk.BulkPrepScreen
 import com.example.bottomnav1.presentation.screens.edit.EditScreen
 import com.example.bottomnav1.presentation.screens.login.LoginScreen
 import com.example.bottomnav1.presentation.screens.signup.SignUpScreen
@@ -23,6 +24,7 @@ import kotlin.system.exitProcess
 
 
 sealed class NavScreen(var icon:Int, var route:String){
+    data object Start: NavScreen(R.drawable.home, "Start")
     data object Home: NavScreen(R.drawable.home, "Home")
     data object Add: NavScreen(R.drawable.add, "Add")
     data object Edit: NavScreen(R.drawable.add, "Edit")//drawable is not relevant
@@ -43,7 +45,13 @@ sealed class NavScreen(var icon:Int, var route:String){
 fun NavigationGraph(navController: NavHostController = rememberNavController()) {
     var selectedContact: Contact? =null
     NavHost(navController,
-        startDestination = NavScreen.Login.route) {
+        startDestination = NavScreen.Start.route) {
+
+        composable(NavScreen.Start.route) {
+            StartScreen(navController = navController) {
+                navController.navigate(NavScreen.Login.route)
+            }
+        }
 
         composable(NavScreen.Login.route) {
             LoginScreen(
@@ -80,6 +88,9 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 },
                 onClickToTrack = {
                     navController.navigate(NavScreen.Track.route)
+                },
+                onClickToAdd = {
+                    navController.navigate(NavScreen.Add.route)
                 }
 
             )
@@ -146,3 +157,4 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         }
     }
 }
+

@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
 private const val CONTACT_ROOT_FOLDER = "contacts"
-private const val DATABASE_URL ="https://cloud1-1e322-default-rtdb.europe-west1.firebasedatabase.app/"
+private const val DATABASE_URL ="https://cloud-2-5cc69-default-rtdb.europe-west1.firebasedatabase.app/"
 
 interface AppContainer {
     val contactRepository: ContactRepo

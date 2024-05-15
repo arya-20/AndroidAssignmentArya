@@ -1,4 +1,4 @@
-
+package com.example.bottomnav1.presentation.screens.start
 import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement

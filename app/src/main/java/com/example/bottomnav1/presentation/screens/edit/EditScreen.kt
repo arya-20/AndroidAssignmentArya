@@ -55,27 +55,27 @@ fun EditScreen(vm: EditViewModel = viewModel(factory = EditViewModel.Factory),
             )
             Column {
                 CustomTextField(
-                    stringResource(R.string.first_name_hint),
-                    text = vm.firstName,
-                    onValueChange = { vm.firstName = it },
+                    stringResource(R.string.email_hint),
+                    text = vm.email,
+                    onValueChange = { vm.email = it },
                     errorMessage = stringResource(R.string.first_name_error_message),
-                    errorPresent = vm.firstNameIsValid()
+                    errorPresent = vm.emailIsValid()
                 )
 
                 CustomTextField(
-                    stringResource(R.string.surname_hint),
-                    text = vm.surname,
-                    onValueChange = { vm.surname = it },
+                    stringResource(R.string.password_hint),
+                    text = vm.password,
+                    onValueChange = { vm.password = it },
                     errorMessage = stringResource(R.string.surname_error_message),
-                    errorPresent = vm.surnameIsValid()
+                    errorPresent = vm.passwordIsValid()
                 )
 
                 CustomTextField(
-                    stringResource(R.string.tel_no_hint),
-                    text = vm.telNo,
-                    onValueChange = { vm.telNo = it },
+                    stringResource(R.string.recipe_hint),
+                    text = vm.recipe,
+                    onValueChange = { vm.recipe = it },
                     errorMessage = stringResource(R.string.tel_no_error_message),
-                    errorPresent = vm.telNoIsValid()
+                    errorPresent = vm.recipeIsValid()
                 )
 
                 CustomButton(

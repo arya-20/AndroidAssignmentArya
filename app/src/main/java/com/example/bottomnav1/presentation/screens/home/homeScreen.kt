@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.bottomnav1.data.contact1.Contact
 import com.example.bottomnav1.presentation.components.BottomNavBar
 import com.example.bottomnav1.presentation.components.CustomButton
 
@@ -21,7 +20,6 @@ import com.example.bottomnav1.presentation.components.CustomButton
 @Composable
 fun HomeScreen(
     navController: NavHostController,
-    onIndexChange: (Contact) -> Unit,
     onClickToBulkPrep: () -> Unit,
     onClickToWeightLoss: () -> Unit,
     onClickToWeightGain: () -> Unit,

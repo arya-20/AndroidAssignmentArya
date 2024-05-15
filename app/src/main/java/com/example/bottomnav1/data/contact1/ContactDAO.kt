@@ -8,9 +8,26 @@ import com.google.firebase.database.ValueEventListener
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import java.util.UUID
 
 class ContactDAO(private val database: DatabaseReference) {
+
+    suspend fun getContactForUser(userId: String): Contact? {
+        return try {
+            val snapshot = database.child(userId).get().await()
+            var contact: Contact? = null
+
+            snapshot.children.forEach { childSnapshot ->
+                contact = childSnapshot.getValue(Contact::class.java)
+                contact?.id = childSnapshot.key
+            }
+            contact
+        } catch (e: Exception) {
+            // Handle errors appropriately
+            null
+        }
+    }
      suspend fun getContacts(contactUUID: String) : Flow<DatabaseResult<List<Contact?>>> = callbackFlow {
         trySend(DatabaseResult.Loading)
         database.child(contactUUID).keepSynced(true)

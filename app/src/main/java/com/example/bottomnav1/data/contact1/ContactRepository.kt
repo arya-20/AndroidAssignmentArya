@@ -9,15 +9,21 @@ interface ContactRepo{
 
     fun add(contact: Contact, contactUUID: String)
 
+    suspend fun getContactForUser(userId: String): Contact?
+
     fun edit(contact: Contact, contactUUID: String)
 
     suspend fun getAll(contactUUID: String): Flow<DatabaseResult<List<Contact?>>>
 }
 
 class ContactRepository(private val contactDAO: ContactDAO) : ContactRepo {
+    override suspend fun getContactForUser(userId: String): Contact? {
+        return contactDAO.getContactForUser(userId)
+    }
     override fun delete(contact: Contact) = contactDAO.delete(contact)
 
     override fun add(contact: Contact, contactUUID: String) { contactDAO.insert(contact, contactUUID)}
+
 
     override fun edit(contact: Contact, contactUUID: String) { contactDAO.update(contact, contactUUID)}
 

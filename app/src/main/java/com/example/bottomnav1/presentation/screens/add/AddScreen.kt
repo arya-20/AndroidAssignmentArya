@@ -51,28 +51,22 @@ fun AddScreen(vm: AddViewModel = viewModel(factory = AddViewModel.Factory),
             Column {
 
                 CustomTextField(
-                    stringResource(R.string.first_name_hint),
-                    text = vm.firstName,
-                    onValueChange = { vm.firstName = it },
-                    errorMessage = stringResource(R.string.first_name_error_message),
-                    errorPresent = vm.firstNameIsValid()
+                    stringResource(R.string.email),
+                    text = vm.email,
+                    onValueChange = { vm.email = it },
+                    errorMessage = stringResource(R.string.email_error_message),
+                    errorPresent = vm.isEmailValid(email = String())
                 )
 
                 CustomTextField(
-                    stringResource(R.string.surname_hint),
-                    text = vm.surname,
-                    onValueChange = { vm.surname = it },
-                    errorMessage = stringResource(R.string.surname_error_message),
-                    errorPresent = vm.surnameIsValid()
+                    stringResource(R.string.password_hint),
+                    text = vm.password,
+                    onValueChange = { vm.password = it },
+                    errorMessage = stringResource(R.string.password_error_message),
+                    errorPresent = vm.isPasswordValid(password = String())
                 )
 
-                CustomTextField(
-                    stringResource(R.string.tel_no_hint),
-                    text = vm.telNo,
-                    onValueChange = { vm.telNo = it },
-                    errorMessage = stringResource(R.string.tel_no_error_message),
-                    errorPresent = vm.telNoIsValid()
-                )
+
                 CustomButton(
                     stringResource(R.string.add),
                     clickButton = {

@@ -1,50 +1,45 @@
 package com.example.bottomnav1.presentation.screens.bulk
+// BulkPrepScreen.kt
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
+import androidx.compose.material.Button
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.bottomnav1.R
-import com.example.bottomnav1.data.BulkPrepButtons
+import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.presentation.components.BottomNavBar
-import com.example.bottomnav1.presentation.components.CustomButton
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.toObject
-import com.google.firebase.ktx.Firebase
-import kotlinx.coroutines.tasks.await
+import com.example.bottomnav1.presentation.screens.bulk.component.LazyColumnWithSelection
+import com.example.bottomnav1.presentation.utils.Util.Companion.showMessage
 
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
+
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
 fun BulkPrepScreen(
     navController: NavHostController,
-    onClickToHome: () -> Unit
+    viewModel: BulkViewModel = viewModel(factory = BulkViewModel.Factory),
+    onClickToViewRecipe: (String) -> Unit,
+    onClickToEditRecipe: (String) -> Unit,
+    onIndexChange: (Recipe?) -> Unit
 ) {
-    val keyboardController = LocalSoftwareKeyboardController.current
-    val db = Firebase.firestore
+    //collect recipes from the view model
+    val context = LocalContext.current
 
-    var buttonNames by remember { mutableStateOf<List<String>>(emptyList()) }
-
-    LaunchedEffect(Unit) {
-        val buttonNamesDocument = db.collection("BulkPrep").document("k0EafNoCsvBfNvFXCfB5").get().await()
-        buttonNames = buttonNamesDocument.toObject<BulkPrepButtons>()?.buttonNames ?: emptyList()
-    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -53,24 +48,58 @@ fun BulkPrepScreen(
         }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
-                .padding(vertical = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            androidx.compose.material.Text(
-                text = stringResource(R.string.bulk_prep),
+            Text(
+                text = "Bulk Prep Recipes",
                 textAlign = TextAlign.Center,
-                fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.White,
-                modifier = Modifier.padding(vertical = 16.dp)
+                color = Color.Black
             )
-            buttonNames.forEach { buttonName ->
-                CustomButton(
-                    text = buttonName,
-                    clickButton = {}
-                )
+
+            val recipeState by viewModel.recipeState.collectAsState()
+
+            if (recipeState.data != null && recipeState.data!!.isNotEmpty()) {
+                LazyColumnWithSelection(
+                    recipes = recipeState.data!!
+                ) { recipe ->
+                    viewModel.selectedRecipe = recipe
+                    recipe?.let { onIndexChange(it) }
+                }
+            }
+
+            if (viewModel.recipeState.value.errorMessage.isNotBlank()) {
+                showMessage(context, viewModel.recipeState.value.errorMessage)
+            }
+
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Button(
+                    onClick = {
+                        viewModel.selectedRecipe?.let { recipe ->
+                            recipe.id?.let { onClickToEditRecipe(it) }
+                        }
+                    },
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Text(text = "Edit")
+                }
+                Button(
+                    onClick = {
+                        viewModel.selectedRecipe?.let { recipe ->
+                            recipe.id?.let { onClickToViewRecipe(it) }
+                        }
+                    }
+                ) {
+                    Text(text = "View")
+                }
             }
         }
     }

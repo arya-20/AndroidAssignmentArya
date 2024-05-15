@@ -2,7 +2,6 @@ package com.example.bottomnav1.presentation.navigation
 
 import HomeScreen
 import SettingsScreen
-import StartScreen
 import TrackScreen
 import VeganScreen
 import WeightGainScreen
@@ -15,11 +14,13 @@ import androidx.navigation.compose.rememberNavController
 import com.example.bottomnav1.R
 import com.example.bottomnav1.core.ContactApplication
 import com.example.bottomnav1.data.contact1.Contact
+import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.presentation.screens.add.AddScreen
 import com.example.bottomnav1.presentation.screens.bulk.BulkPrepScreen
 import com.example.bottomnav1.presentation.screens.edit.EditScreen
 import com.example.bottomnav1.presentation.screens.login.LoginScreen
 import com.example.bottomnav1.presentation.screens.signup.SignUpScreen
+import com.example.bottomnav1.presentation.screens.start.StartScreen
 import kotlin.system.exitProcess
 
 
@@ -32,6 +33,9 @@ sealed class NavScreen(var icon:Int, var route:String){
     data object Login: NavScreen(R.drawable.home, "Login")
     data object SignUp: NavScreen(R.drawable.home, "SignUp")
     data object BulkPrep: NavScreen(R.drawable.home, "BulkPrep")
+    data object BulkPrepEdit: NavScreen(R.drawable.draw, "Edit Bulk Prep")
+
+    data object BulkPrepView: NavScreen(R.drawable.draw, "View Bulk Prep")
     data object Track: NavScreen(R.drawable.home, "Track")
     data object WeightLoss: NavScreen(R.drawable.home, "WeightLoss")
     data object WeightGain: NavScreen(R.drawable.home, "WeightGain")
@@ -43,7 +47,8 @@ sealed class NavScreen(var icon:Int, var route:String){
 
 @Composable
 fun NavigationGraph(navController: NavHostController = rememberNavController()) {
-    var selectedContact: Contact? =null
+    var selectedRecipe: Recipe? =null
+    var selectedContact: Contact? = null
     NavHost(navController,
         startDestination = NavScreen.Start.route) {
 
@@ -71,9 +76,6 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         composable(NavScreen.Home.route) {
             HomeScreen(
                 navController = navController,
-                onIndexChange = {
-                    selectedContact = it
-                },
                 onClickToBulkPrep = {
                     navController.navigate(NavScreen.BulkPrep.route)
                 },
@@ -97,10 +99,17 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         }
         composable(NavScreen.BulkPrep.route) {
             BulkPrepScreen(
-                navController = navController
-            ) {
-                navController.popBackStack()
-            }
+                navController = navController,
+                onClickToEditRecipe = { recipeId ->
+                    navController.navigate("${NavScreen.BulkPrepEdit.route}/$recipeId")
+                },
+                onClickToViewRecipe = { recipeId ->
+                    navController.navigate("${NavScreen.BulkPrepView.route}/$recipeId")
+                },
+                onIndexChange = {
+                    selectedRecipe = it
+                }
+            )
         }
         composable(NavScreen.WeightLoss.route) {
             WeightLossScreen(

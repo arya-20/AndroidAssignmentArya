@@ -1,10 +1,12 @@
 package com.example.bottomnav1.data.contact1
 
+import com.example.bottomnav1.data.recipe1.Recipe
+
 data class Contact(
-    var firstName: String? =null,
-    var surname: String? =null,
-    var telNo: String? =null
+    var email: String? =null,
+    var password: String? =null,
+    var recipe: List<Recipe>? =null
 ) {
     var id:String? =null //UUID
-    override fun toString(): String = "$firstName $surname $telNo"
+    override fun toString(): String = "$email $password $recipe"
 }

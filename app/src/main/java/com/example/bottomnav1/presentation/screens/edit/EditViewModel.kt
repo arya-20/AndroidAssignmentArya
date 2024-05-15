@@ -12,49 +12,50 @@ import com.example.bottomnav1.data.auth.AuthRepo
 import com.example.bottomnav1.data.contact1.Contact
 import com.example.bottomnav1.data.contact1.ContactRepo
 
-class EditViewModel (private val authRepo: AuthRepo, private val repo: ContactRepo) : ViewModel() {
-    private var selectedContact : Contact? = null
+class EditViewModel(private val authRepo: AuthRepo, private val repo: ContactRepo) : ViewModel() {
+    private var selectedContact: Contact? = null
 
     var id by mutableStateOf(String())
-    var firstName by mutableStateOf(String())
-    var surname by mutableStateOf(String())
-    var telNo by mutableStateOf(String())
+    var email by mutableStateOf(String())
+    var password by mutableStateOf(String())
+    var recipe by mutableStateOf(String())
 
-    fun setSelectedContact(contact: Contact){
+    fun setSelectedContact(contact: Contact) {
         id = contact.id.toString()
-        firstName = contact.firstName.toString()
-        surname = contact.surname.toString()
-        telNo = contact.telNo.toString()
+        email = contact.email.toString()
+        password = contact.password.toString()
+        recipe = contact.recipe.toString()
         selectedContact = contact
     }
 
-    fun firstNameIsValid():Boolean{
-        return firstName.isNotBlank()
+    fun emailIsValid(): Boolean {
+        return email.isNotBlank()
     }
 
-    fun surnameIsValid():Boolean{
-        return surname.isNotBlank()
+    fun passwordIsValid(): Boolean {
+        return password.isNotBlank()
     }
 
-    fun telNoIsValid():Boolean{
-        return telNo.isNotBlank()
+    fun recipeIsValid(): Boolean {
+        return recipe.isNotBlank()
     }
 
-    fun updateContact(){
-        if (selectedContact!=null
-            && firstNameIsValid()
-            && surnameIsValid()
-            && telNoIsValid())  {
-            selectedContact!!.firstName = firstName
-            selectedContact!!.surname = surname
-            selectedContact!!.telNo = telNo
+    fun updateContact() {
+        if (selectedContact != null
+            && emailIsValid()
+            && passwordIsValid()
+            && recipeIsValid()
+        ) {
+            selectedContact!!.email = email
+            selectedContact!!.password = password
+            //selectedContact!!.recipe = recipe
             repo.edit(selectedContact!!, authRepo.currentUser!!.uid)
         }
     }
 
     // Define ViewModel factory in a companion object
     companion object {
-        val Factory: ViewModelProvider.Factory= viewModelFactory() {
+        val Factory: ViewModelProvider.Factory = viewModelFactory() {
             initializer {
                 EditViewModel(
                     authRepo = ContactApplication.container.authRepository,

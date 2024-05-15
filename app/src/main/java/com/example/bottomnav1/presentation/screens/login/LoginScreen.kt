@@ -61,7 +61,7 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                     isPasswordField = false,
                     onValueChange = { vm.email = it },
                     stringResource(R.string.email_error_message),
-                    vm.emailIsValid()
+                    !vm.emailIsValid()
                 )
                 SmallSpacer()
                 CustomTextField(
@@ -70,7 +70,7 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                     isPasswordField = true,
                     onValueChange = { vm.password = it },
                     stringResource(R.string.password_error_message),
-                    vm.passwordIsValid()
+                    !vm.passwordIsValid()
                 )
                 SmallSpacer()
                 CustomButton(

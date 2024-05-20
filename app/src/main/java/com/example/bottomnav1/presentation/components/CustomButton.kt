@@ -10,6 +10,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -17,18 +19,18 @@ import androidx.compose.ui.unit.sp
 fun CustomButton(
     text: String,
     clickButton: () -> Unit,
-    buttonWidth: Int = 275, // Default button width
-    buttonHeight: Int = 60, // Default button height
-    cornerRadius: Int = 30 // Default corner radius
+    buttonWidth: Int = 275,
+    buttonHeight: Int = 60,
+    cornerRadius: Int = 30
 ) {
     Button(
         onClick = clickButton,
         shape = RoundedCornerShape(cornerRadius.dp),
-        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White), // Set button background color to white
+        colors = ButtonDefaults.buttonColors(backgroundColor = Color.White),
         modifier = Modifier
             .padding(horizontal = 10.dp)
             .width(buttonWidth.dp)
-            .height(buttonHeight.dp)
+            .height(buttonHeight.dp).semantics { contentDescription = text.plus("button") },
     ) {
         Text(
             text = text,

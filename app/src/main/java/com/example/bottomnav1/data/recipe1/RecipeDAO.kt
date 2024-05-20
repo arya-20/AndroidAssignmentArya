@@ -1,5 +1,6 @@
 package com.example.bottomnav1.data.recipe1
 
+import android.util.Log
 import com.example.bottomnav1.data.DatabaseResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -16,6 +17,22 @@ class RecipeDAO(private var database: DatabaseReference) {
     fun updateContactListener(recipesToListenTo: DatabaseReference){
         this.database = recipesToListenTo
     }
+
+    fun insert(newRecipe: Recipe, recipeId: String) {
+
+        Log.d("RecipeDao", "Inserting recipe with ID: $recipeId")
+        database.child(recipeId).setValue(newRecipe)
+    }
+
+    fun update(editRecipe: Recipe, userAuthUUID: String) {
+        val recipeId = editRecipe.id.toString()
+        editRecipe.id = String()
+        database.child(userAuthUUID).child(recipeId).setValue(editRecipe)
+    }
+
+    fun delete(recipe: Recipe) = database.child(recipe.id.toString()).removeValue()
+
+
     suspend fun getRecipes(category: String): Flow<DatabaseResult<List<Recipe?>>> = callbackFlow {
         trySend(DatabaseResult.Loading)
         database.child(category).keepSynced(true)
@@ -40,10 +57,11 @@ class RecipeDAO(private var database: DatabaseReference) {
     }
     suspend fun getRecipeById(recipeId: String): Recipe? {
         return try {
-            val snapshot = database.child("recipers").child(recipeId).get().await()
+            val snapshot = database.child("recipes").child(recipeId).get().await()
             snapshot.getValue(Recipe::class.java)
         }catch (e: Exception) {
             null
         }
     }
+
 }

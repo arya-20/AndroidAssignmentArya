@@ -16,14 +16,9 @@ fun LogIn(
         is Response.Startup -> Unit //Do nothing
         is Response.Loading -> ProgressBar()
         is Response.Success -> {
-            if(vm.isEmailVerified) {
                 LaunchedEffect(key1 = Unit) {
                     navigateToHomeScreen()
                 }
-            }
-            else{
-                showErrorMessage("Email not authorised")
-            }
         }
         is Response.Failure -> signInResponse.apply {
             LaunchedEffect(e) {

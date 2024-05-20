@@ -9,7 +9,6 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
-import java.util.UUID
 
 class ContactDAO(private val database: DatabaseReference) {
 
@@ -51,8 +50,9 @@ class ContactDAO(private val database: DatabaseReference) {
         awaitClose { close() }
     }
 
-    fun insert(newContact: Contact, userAuthUUID: String) = database.child(userAuthUUID).child(UUID.randomUUID().toString()).setValue(newContact)
-
+    fun insert(newContact: Contact, userAuthUUID: String) {
+        database.child(userAuthUUID).setValue(newContact)
+    }
     fun update(editContact: Contact, userAuthUUID: String) {
         val contactId = editContact.id.toString() //retrieved for sub folder key
         editContact.id = String() //Clear so not saved inside folder

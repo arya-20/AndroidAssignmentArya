@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bottomnav1.core.ContactApplication
 import com.example.bottomnav1.data.DatabaseState
@@ -31,6 +32,7 @@ class BulkViewModel(
 
     var selectedRecipe: Recipe? by mutableStateOf(null)
     var recipeId by mutableStateOf("")
+
     init {
         val currentUser = authRepo.currentUser
         if (currentUser != null) {
@@ -54,7 +56,8 @@ class BulkViewModel(
                 _recipeState.value = DatabaseState(data = bulkRecipes)
 
             } catch (e: Exception) {
-                _recipeState.value = _recipeState.value.copy(errorMessage = e.message ?: "Unknown error")
+                _recipeState.value =
+                    _recipeState.value.copy(errorMessage = e.message ?: "Unknown error")
             } finally {
                 _recipeState.value = _recipeState.value.copy(isLoading = false)
             }
@@ -68,11 +71,13 @@ class BulkViewModel(
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
-            BulkViewModel(
-                ContactApplication.container.authRepository,
-                ContactApplication.container.recipeRepository,
-                ContactApplication.container.contactRepository
-            )
+            initializer {
+                BulkViewModel(
+                    authRepo = ContactApplication.container.authRepository,
+                    recipeRepository = ContactApplication.container.recipeRepository,
+                    contactRepo = ContactApplication.container.contactRepository
+                )
+            }
         }
     }
 }

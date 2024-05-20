@@ -22,6 +22,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.bottomnav1.core.ContactApplication
 import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.presentation.components.BottomNavBar
 import com.example.bottomnav1.presentation.screens.bulk.component.LazyColumnWithSelection
@@ -33,12 +34,13 @@ import com.example.bottomnav1.presentation.utils.Util.Companion.showMessage
 fun BulkPrepScreen(
     navController: NavHostController,
     viewModel: BulkViewModel = viewModel(factory = BulkViewModel.Factory),
-    onClickToViewRecipe: (String) -> Unit,
+    onClickToRecipeDetailScreen: (String) -> Unit,
     onClickToEditRecipe: (String) -> Unit,
+    onClickToAddRecipe: () -> Unit,
     onIndexChange: (Recipe?) -> Unit
 ) {
     //collect recipes from the view model
-    val context = LocalContext.current
+    val context = LocalContext.current.applicationContext as ContactApplication
 
 
     Scaffold(
@@ -81,6 +83,15 @@ fun BulkPrepScreen(
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.Center
             ) {
+
+                Button(
+                    onClick =
+                        onClickToAddRecipe ,
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
+                    Text(text = "Add")
+                }
+
                 Button(
                     onClick = {
                         viewModel.selectedRecipe?.let { recipe ->
@@ -94,7 +105,7 @@ fun BulkPrepScreen(
                 Button(
                     onClick = {
                         viewModel.selectedRecipe?.let { recipe ->
-                            recipe.id?.let { onClickToViewRecipe(it) }
+                            recipe.id?.let { onClickToRecipeDetailScreen(it) }
                         }
                     }
                 ) {
@@ -102,5 +113,5 @@ fun BulkPrepScreen(
                 }
             }
         }
+        }
     }
-}

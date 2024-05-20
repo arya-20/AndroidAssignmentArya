@@ -20,7 +20,7 @@ fun LazyColumnWithSelection(
         itemsIndexed(recipes) { index, recipe ->
             ItemView(
                 index = index,
-                recipe = recipe, // Modify as per your user model
+                recipe = recipe,
                 selected = selectedIndexToHighlight == index,
                 onClick = { selectedRecipe ->
                     selectedIndexToHighlight = index

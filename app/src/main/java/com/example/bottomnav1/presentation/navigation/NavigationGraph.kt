@@ -2,11 +2,12 @@ package com.example.bottomnav1.presentation.navigation
 
 import HomeScreen
 import SettingsScreen
-import TrackScreen
 import VeganScreen
 import WeightGainScreen
 import WeightLossScreen
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -19,8 +20,11 @@ import com.example.bottomnav1.presentation.screens.add.AddScreen
 import com.example.bottomnav1.presentation.screens.bulk.BulkPrepScreen
 import com.example.bottomnav1.presentation.screens.edit.EditScreen
 import com.example.bottomnav1.presentation.screens.login.LoginScreen
+import com.example.bottomnav1.presentation.screens.recipe.RecipeDetailViewModel
+import com.example.bottomnav1.presentation.screens.recipe.RecipeDetailsScreen
 import com.example.bottomnav1.presentation.screens.signup.SignUpScreen
 import com.example.bottomnav1.presentation.screens.start.StartScreen
+import com.example.bottomnav1.presentation.screens.track.TrackScreen
 import kotlin.system.exitProcess
 
 
@@ -33,14 +37,14 @@ sealed class NavScreen(var icon:Int, var route:String){
     data object Login: NavScreen(R.drawable.home, "Login")
     data object SignUp: NavScreen(R.drawable.home, "SignUp")
     data object BulkPrep: NavScreen(R.drawable.home, "BulkPrep")
+    data object AddRecipe: NavScreen(R.drawable.add, "AddRecipe")
     data object BulkPrepEdit: NavScreen(R.drawable.draw, "Edit Bulk Prep")
-
     data object BulkPrepView: NavScreen(R.drawable.draw, "View Bulk Prep")
-    data object Track: NavScreen(R.drawable.home, "Track")
     data object WeightLoss: NavScreen(R.drawable.home, "WeightLoss")
     data object WeightGain: NavScreen(R.drawable.home, "WeightGain")
     data object Vegan: NavScreen(R.drawable.home, "Vegan")
     data object Settings: NavScreen(R.drawable.settings, "Settings")
+    data object Track: NavScreen(R.drawable.home, "Track")
 
 
 }
@@ -91,19 +95,18 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 onClickToTrack = {
                     navController.navigate(NavScreen.Track.route)
                 },
-                onClickToAdd = {
-                    navController.navigate(NavScreen.Add.route)
-                }
-
             )
         }
         composable(NavScreen.BulkPrep.route) {
             BulkPrepScreen(
                 navController = navController,
+                onClickToAddRecipe = {
+                    navController.navigate(NavScreen.AddRecipe.route)
+                },
                 onClickToEditRecipe = { recipeId ->
                     navController.navigate("${NavScreen.BulkPrepEdit.route}/$recipeId")
                 },
-                onClickToViewRecipe = { recipeId ->
+                onClickToRecipeDetailScreen  = { recipeId ->
                     navController.navigate("${NavScreen.BulkPrepView.route}/$recipeId")
                 },
                 onIndexChange = {
@@ -111,6 +114,26 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 }
             )
         }
+        composable("${NavScreen.BulkPrepView.route}/{recipeId}") { backStackEntry ->
+            val recipeId = backStackEntry.arguments?.getString("recipeId")
+            recipeId?.let {
+                val vm : RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory)
+                vm.name?.let {
+                RecipeDetailsScreen(recipeName = it, navController = navController,) }
+            }
+                    ?: run {
+                      Text(text = "Invalid Recipe")
+                    }
+        }
+
+        composable(NavScreen.AddRecipe.route) {
+            AddScreen(
+                navController = navController
+            ) {
+                navController.popBackStack()
+            }
+        }
+
         composable(NavScreen.WeightLoss.route) {
             WeightLossScreen(
                 navController = navController
@@ -132,12 +155,11 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 navController.popBackStack()
             }
         }
+
         composable(NavScreen.Track.route) {
             TrackScreen(
                 navController = navController
-            ) {
-                navController.popBackStack()
-            }
+            )
         }
 
         composable(NavScreen.Add.route) {
@@ -157,8 +179,6 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
             SettingsScreen(
                 navController = navController,)
         }
-
-
 
         composable(NavScreen.Exit.route) {
             ContactApplication.container.authRepository.signOut()

@@ -17,20 +17,50 @@ interface AppContainer {
     val contactRepository: ContactRepository
     val authRepository: AuthRepo
     val recipeRepository: RecipeRepository
+
+    val isRunningTest: Boolean
 }
 
 class AppDataContainer : AppContainer {
-    override val contactRepository: ContactRepository
-    override val recipeRepository: RecipeRepository
-    override var authRepository: AuthRepo = AuthRepository(FirebaseAuth.getInstance())
+
+    override val isRunningTest : Boolean by lazy {
+        try {
+            Class.forName("androidx.test.espresso.Espresso")
+            true
+        } catch (e: ClassNotFoundException) {
+            false
+        }
+    }
+
+    override lateinit var  contactRepository: ContactRepository
+    override lateinit var recipeRepository: RecipeRepository
+    override lateinit var authRepository: AuthRepo
+
+
+
+//    init {
+//        val contactRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference(CONTACT_ROOT_FOLDER)
+//        val contactDAO = ContactDAO(contactRoot)
+//        contactRepository = ContactRepository(contactDAO)
+//
+//        val recipeRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference(RECIPE_ROOT_FOLDER)
+//        val recipeDAO = RecipeDAO(recipeRoot)
+//        recipeRepository = RecipeRepository(recipeDAO)
+//
+//    }
 
     init {
-        val contactRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference(CONTACT_ROOT_FOLDER)
-        val contactDAO = ContactDAO(contactRoot)
-        contactRepository = ContactRepository(contactDAO)
+        val APPENDED_TEST_PATH = if (isRunningTest) "test" else String()
 
-        val recipeRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference(RECIPE_ROOT_FOLDER)
-        val recipeDAO = RecipeDAO(recipeRoot)
-        recipeRepository = RecipeRepository(recipeDAO)
+        val contactRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference("$APPENDED_TEST_PATH $CONTACT_ROOT_FOLDER")
+        val ContactDAO = ContactDAO(contactRoot)
+        contactRepository = ContactRepository(ContactDAO)
+
+        val recipeRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference("$APPENDED_TEST_PATH $RECIPE_ROOT_FOLDER")
+        recipeRepository = RecipeRepository(RecipeDAO(recipeRoot))
+
+        authRepository = AuthRepository (
+            FirebaseAuth.getInstance(),contactRepository
+        )
     }
 }

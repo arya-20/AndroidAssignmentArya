@@ -21,11 +21,12 @@ import androidx.compose.ui.unit.dp
 fun CustomTextField(
     hintText: String,
     text: String,
-    isPasswordField: Boolean = false,
     onValueChange: (String) -> Unit,
     errorMessage: String,
-    errorPresent: Boolean
-) {
+    errorPresent: Boolean,
+    isPasswordField: Boolean = false
+
+    ) {
     TextField(
         value = text,
         onValueChange = onValueChange,
@@ -41,7 +42,7 @@ fun CustomTextField(
         ),
         modifier = Modifier.padding(10.dp)
             .border(1.dp, Color.Black, RoundedCornerShape(27.dp)),
-        shape = RoundedCornerShape(8.dp), // Rounded corners
+        shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.Black,
             backgroundColor = Color.Transparent,

@@ -17,7 +17,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.bottomnav1.R
 import com.example.bottomnav1.presentation.components.CustomButton
@@ -48,6 +51,12 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                androidx.compose.material.Text(
+                    text = stringResource(R.string.login_screen_title),
+                    textAlign = TextAlign.Center,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 Image(
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = null,
@@ -58,20 +67,21 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                 CustomTextField(
                     hintText = stringResource(R.string.email),
                     text = vm.email,
-                    isPasswordField = false,
                     onValueChange = { vm.email = it },
                     stringResource(R.string.email_error_message),
-                    !vm.emailIsValid()
+                    !vm.emailIsValid(),
+                    isPasswordField = false
                 )
                 SmallSpacer()
                 CustomTextField(
                     hintText = stringResource(R.string.password),
                     text = vm.password,
-                    isPasswordField = true,
                     onValueChange = { vm.password = it },
                     stringResource(R.string.password_error_message),
-                    !vm.passwordIsValid()
-                )
+                    !vm.passwordIsValid() ,
+                    isPasswordField = true
+
+                    )
                 SmallSpacer()
                 CustomButton(
                     stringResource(R.string.submit_button),

@@ -2,10 +2,25 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="HomeScreenTests">
+        <State />
+      </entry>
+      <entry key="LoginScreenTests">
+        <State />
+      </entry>
+      <entry key="StartScreenTests">
+        <State />
+      </entry>
       <entry key="Unnamed">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="check default state of the home screen()">
+        <State />
+      </entry>
+      <entry key="check if user can sign in and proceed to the home page()">
         <State />
       </entry>
     </value>

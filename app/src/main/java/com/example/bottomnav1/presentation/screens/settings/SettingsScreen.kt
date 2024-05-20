@@ -48,15 +48,15 @@ fun SettingsScreen(
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = Color.White,
                 modifier = Modifier.padding(vertical = 20.dp)
             )
             Row {
                 androidx.compose.material.Text(
                     text = "Dark Mode",
                     fontSize = 16.sp,
-                    color = Color.Black,
-                    modifier = Modifier.padding(end = 20.dp)
+                    color = Color.White,
+                    modifier = Modifier.padding(end = 40.dp)
                 )
                 Switch(
                     checked = isDarkModeEnabled,

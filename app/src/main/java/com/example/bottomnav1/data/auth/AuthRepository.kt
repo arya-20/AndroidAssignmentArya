@@ -1,8 +1,12 @@
 package com.example.bottomnav1.data.auth
 
+import android.util.Log
 import com.example.bottomnav1.data.Response
+import com.example.bottomnav1.data.contact1.Contact
+import com.example.bottomnav1.data.contact1.ContactRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.UserProfileChangeRequest
 import kotlinx.coroutines.tasks.await
 
 interface AuthRepo {
@@ -18,14 +22,35 @@ interface AuthRepo {
     fun signOut()
 }
 
-class AuthRepository(private val auth: FirebaseAuth): AuthRepo {
+class AuthRepository(private val auth: FirebaseAuth,
+    private val contactRepo: ContactRepository): AuthRepo {
     override val currentUser get() = auth.currentUser
 
     override suspend fun firebaseSignUpWithEmailAndPassword(
         email: String, password: String): Response<Boolean> {
         return try {
-            auth.createUserWithEmailAndPassword(email, password).await()
-            Response.Success(true)
+            val authResult = auth.createUserWithEmailAndPassword(email, password).await()
+
+            val currentUser = authResult.user
+
+            if (currentUser != null) {
+                currentUser.updateProfile(
+                    UserProfileChangeRequest.Builder()
+                        .setDisplayName(email)
+                        .build()
+                )
+                    .await()
+
+                val newContact = Contact(
+                    email = email,
+                    password = password
+                )
+                val userAuthUUID = currentUser.uid
+                contactRepo.add(newContact, userAuthUUID)
+                Log.d("new Contact", "$newContact")
+            }
+
+                Response.Success(true)
         }
         catch (e: Exception) {
             Response.Failure(e)

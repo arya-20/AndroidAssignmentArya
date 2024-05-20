@@ -1,3 +1,4 @@
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,8 +13,8 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.bottomnav1.R
 import com.example.bottomnav1.presentation.components.BottomNavBar
@@ -47,12 +48,15 @@ fun WeightGainScreen(
                 color = Color.Black,
                 modifier = Modifier.padding(vertical = 16.dp)
             )
-            CustomButton(
-                text = stringResource(id = R.string.start_weight_gain),
-                clickButton = { onClickToHome()
-                    keyboardController?.hide()}
 
-            )
+                    CustomButton(
+                        text = stringResource(id = R.string.add),
+                        clickButton = {
+                            onClickToHome()
+                            keyboardController?.hide()
+                        }
+                    )
+
         }
     }
 }

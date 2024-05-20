@@ -1,62 +1,84 @@
 package com.example.bottomnav1.presentation.screens.recipe
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
+import com.example.bottomnav1.R
 
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun RecipeDetailsScreen(recipeName: String, navController: NavController, database: DatabaseReference) {
-    var recipeDetails by remember { mutableStateOf("Loading...") }
+fun RecipeDetailsScreen(recipeName: String,
+                        vm:  RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory),
+                        navController: NavController) {
 
-    //fetch recipe details from firebase based on the recipe name
-    LaunchedEffect(recipeName) {
-        val recipeRef = database.child("Bulk").child(recipeName)
-        val recipeListener = object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val recipe = dataSnapshot.getValue(String::class.java)
-                recipe?.let {
-                    recipeDetails = it
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text(text = "Team Details") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            painterResource(id = R.drawable.back),
+                            contentDescription = "Back")
+                    }
+                }
+            )
+        },
+        modifier = Modifier.fillMaxSize(),
+    )
+
+    {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp)
+        ) {
+
+            Text(
+                text = "Name: ${vm.name }",
+                textAlign = TextAlign.Start,
+                fontSize = 18.sp,
+                color = Color.White,
+                modifier = Modifier.padding(8.dp)
+            )
+            Text(
+                text = "Category: ${vm.category }",
+                textAlign = TextAlign.Start,
+                fontSize = 18.sp,
+                color = Color.White,
+                modifier = Modifier.padding(8.dp)
+            )
+            Text(
+                text = "Ingredients: ${vm.ingredients }",
+                textAlign = TextAlign.Start,
+                fontSize = 18.sp,
+                color = Color.White,
+                modifier = Modifier.padding(8.dp)
+            )
+            Text(
+                text = "Instructions: ${vm.instructions }",
+                textAlign = TextAlign.Start,
+                fontSize = 18.sp,
+                color = Color.White,
+                modifier = Modifier.padding(8.dp)
+            )
                 }
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error
-                recipeDetails = "Error getting recipe details"
-            }
         }
-        recipeRef.addListenerForSingleValueEvent(recipeListener)
-
-        }
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        //display the recipe name as the title of the screen
-        Text(
-            text = recipeName,
-            modifier = Modifier.padding(vertical = 16.dp)
-        )
-
-        Text(
-            text = recipeDetails,
-            modifier = Modifier.padding(vertical = 8.dp)
-        )
-    }
-}

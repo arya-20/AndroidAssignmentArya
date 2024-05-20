@@ -1,52 +1,58 @@
 package com.example.bottomnav1.presentation.screens.add
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bottomnav1.core.ContactApplication
 import com.example.bottomnav1.data.auth.AuthRepo
-import com.example.bottomnav1.data.contact1.Contact
-import com.example.bottomnav1.data.contact1.ContactRepo
+import com.example.bottomnav1.data.recipe1.Category
 import com.example.bottomnav1.data.recipe1.Recipe
-import kotlinx.coroutines.launch
+import com.example.bottomnav1.data.recipe1.RecipeRepository
 
-class AddViewModel (private val authRepo: AuthRepo, private val repo: ContactRepo) : ViewModel() {
-    var email by mutableStateOf("")
-    var password by mutableStateOf("")
-    var recipes by mutableStateOf<Recipe?>(null)
+class AddViewModel (private val authRepo: AuthRepo, private val repo: RecipeRepository) : ViewModel() {
+    var name by mutableStateOf("")
+    var category by mutableStateOf <Category?> (null)
+    var ingredients by mutableStateOf("")
+    var instructions by mutableStateOf("")
 
-    fun isEmailValid(email: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+    fun isNameValid(): Boolean {
+        return name.isNotBlank()
     }
-
-    fun isPasswordValid(password: String): Boolean {
-        val passwordRegex = Regex("^[A-Z][a-z]{5,}\$")
-        return passwordRegex.matches(password)
+    fun isCategoryValid(): Boolean {
+        return category in Category.values()
     }
-
+    fun isIngredientsValid(): Boolean {
+        return ingredients.isNotBlank()
+    }fun isInstructionsValid(): Boolean {
+        return instructions.isNotBlank()
+    }
     fun addContact() {
-        if (isPasswordValid(password) && isEmailValid(email)) {
-            val newContact = Contact(
-                email = email,
-                password = password,
-                recipe = null
+        if (isNameValid() && isInstructionsValid() && isIngredientsValid() && isCategoryValid() ) {
+            val selectedCategory = category!!
+            val newRecipe = Recipe(
+                name = name,
+                category = category,
+                ingredients = ingredients,
+                instructions = instructions
             )
-            viewModelScope.launch {
-                repo.add(newContact, authRepo.currentUser!!.uid)
-            }
+            repo.add(newRecipe)
+
+            Log.d("new recipe :", "$newRecipe")
             clearFields()
         }
     }
 
     private fun clearFields() {
-        email = ""
-        password = ""
-        recipes = null   }
+        name = ""
+        category = null
+        ingredients = ""
+        instructions = ""
+          }
 
     // Define ViewModel factory in a companion object
     companion object {
@@ -54,7 +60,7 @@ class AddViewModel (private val authRepo: AuthRepo, private val repo: ContactRep
             initializer {
                 AddViewModel(
                     authRepo = ContactApplication.container.authRepository,
-                    repo = ContactApplication.container.contactRepository
+                    repo = ContactApplication.container.recipeRepository
                 )
             }
         }

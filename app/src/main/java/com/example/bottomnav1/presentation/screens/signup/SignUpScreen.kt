@@ -37,7 +37,7 @@ fun SignUpScreen(vm: SignUpViewModel = viewModel(factory = SignUpViewModel.Facto
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "Enter details to sign up",
+                    text = stringResource(R.string.sign_up_screen_title),
                     fontSize = 24.sp,
                     textAlign = TextAlign.Center
                 )
@@ -50,19 +50,21 @@ fun SignUpScreen(vm: SignUpViewModel = viewModel(factory = SignUpViewModel.Facto
                 CustomTextField(
                     stringResource(R.string.email),
                     text = vm.email,
-                    isPasswordField = false,
                     onValueChange = { vm.email = it },
                     stringResource(R.string.email_error_message),
-                    errorPresent = !vm.emailIsValid()
-                )
+                    errorPresent = !vm.emailIsValid(),
+                    isPasswordField = false
+
+                    )
                 CustomTextField(
                     stringResource(R.string.password),
                     text = vm.password,
-                    isPasswordField = true,
                     onValueChange = { vm.password = it },
                     stringResource(R.string.password_error_message),
-                    errorPresent = !vm.passwordIsValid()
-                )
+                    errorPresent = !vm.passwordIsValid(),
+                    isPasswordField = true
+
+                    )
                 SmallSpacer()
                 CustomButton(
                     stringResource(R.string.submit_button),

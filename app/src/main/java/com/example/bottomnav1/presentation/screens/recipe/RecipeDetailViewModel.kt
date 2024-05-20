@@ -5,31 +5,39 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bottomnav1.core.ContactApplication
-import com.example.bottomnav1.data.recipe1.Category
+import com.example.bottomnav1.data.recipe1.RecipeRepository
 import kotlinx.coroutines.launch
 
-class RecipeDetailViewModel : ViewModel() {
+class RecipeDetailViewModel(
+    private  val recipeRepo : RecipeRepository
+) : ViewModel() {
+    private val recipeId: String = ""
     var name: String = ""
-    var category: Category? = null
-    var ingredients: List<String>? = null
-    var instructions: String? = null
+    var category: String = ""
+    var ingredients: String = ""
+    var instructions: String = ""
 
-    fun fetchRecipeDetails(recipeId: String) {
+    init {
         viewModelScope.launch {
-            val recipe = ContactApplication.container.recipeRepository.getRecipeById(recipeId)
-            recipe?.let {
-                name = it.name ?: ""
-                category = it.category
-                ingredients = it.ingredients
-                instructions = it.instructions
-            }
+            fetchRecipeDetails()
         }
+    }
+
+    private suspend fun fetchRecipeDetails() {
+        val recipe = recipeRepo.getRecipeById(recipeId) ?: return
+
+                name = recipe.name ?: ""
+                category = (recipe.category ?: "").toString()
+                ingredients = recipe.ingredients ?: ""
+                instructions = recipe.instructions ?: ""
     }
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                RecipeDetailViewModel()
+                RecipeDetailViewModel(
+                    recipeRepo = ContactApplication.container.recipeRepository
+                )
             }
         }
     }

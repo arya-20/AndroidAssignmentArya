@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.BottomNav1" parent="android:Theme.Material.Light.NoActionBar">
-        <!-- Define custom background with gradient -->
+    <style name="AppTheme" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/background_gradient</item>
     </style>
 

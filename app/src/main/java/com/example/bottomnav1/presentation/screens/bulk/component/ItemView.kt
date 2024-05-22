@@ -22,13 +22,12 @@ fun ItemView(
         Text(
             text = currentRecipe.name ?: "",
             modifier = Modifier
-                .clickable {
-                    onClick.invoke(currentRecipe)
-                }
+                .clickable { onClick.invoke(currentRecipe) }
                 .background(if (selected) MaterialTheme.colors.secondary else Color.Transparent)
                 .fillMaxWidth()
                 .padding(10.dp)
                 .background(if (selected) Color.LightGray else Color.Transparent)
         )
+
     }
 }

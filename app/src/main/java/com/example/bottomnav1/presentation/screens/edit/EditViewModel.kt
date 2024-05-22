@@ -9,47 +9,53 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bottomnav1.core.ContactApplication
 import com.example.bottomnav1.data.auth.AuthRepo
-import com.example.bottomnav1.data.contact1.Contact
-import com.example.bottomnav1.data.contact1.ContactRepo
+import com.example.bottomnav1.data.recipe1.Recipe
+import com.example.bottomnav1.data.recipe1.RecipeRepo
 
-class EditViewModel(private val authRepo: AuthRepo, private val repo: ContactRepo) : ViewModel() {
-    private var selectedContact: Contact? = null
+class EditViewModel(private val authRepo: AuthRepo, private val repo: RecipeRepo) : ViewModel() {
+    private var selectedRecipe: Recipe? = null
 
-    var id by mutableStateOf(String())
-    var email by mutableStateOf(String())
-    var password by mutableStateOf(String())
-    var recipe by mutableStateOf(String())
+    var name by mutableStateOf(String())
+    var category by mutableStateOf(String())
+    var ingredients by mutableStateOf(String())
+    var instructions by mutableStateOf(String())
 
-    fun setSelectedContact(contact: Contact) {
-        id = contact.id.toString()
-        email = contact.email.toString()
-        password = contact.password.toString()
-        recipe = contact.recipe.toString()
-        selectedContact = contact
+    fun setSelectedContact(recipe: Recipe) {
+        name = recipe.name.toString()
+        category = recipe.category.toString()
+        ingredients = recipe.ingredients.toString()
+        instructions = recipe.instructions.toString()
+        selectedRecipe = recipe
     }
 
-    fun emailIsValid(): Boolean {
-        return email.isNotBlank()
+    fun nameIsValid(): Boolean {
+        return name.isNotBlank()
     }
 
-    fun passwordIsValid(): Boolean {
-        return password.isNotBlank()
+    fun categoryIsValid(): Boolean {
+        return category.isNotBlank()
     }
 
-    fun recipeIsValid(): Boolean {
-        return recipe.isNotBlank()
+    fun ingredientsIsValid(): Boolean {
+        return ingredients.isNotBlank()
+    }
+    fun instructionsIsValid(): Boolean {
+        return instructions.isNotBlank()
     }
 
     fun updateContact() {
-        if (selectedContact != null
-            && emailIsValid()
-            && passwordIsValid()
-            && recipeIsValid()
+        if (selectedRecipe != null
+            && nameIsValid()
+            && categoryIsValid()
+            && ingredientsIsValid()
+            && instructionsIsValid()
         ) {
-            selectedContact!!.email = email
-            selectedContact!!.password = password
-            //selectedContact!!.recipe = recipe
-            repo.edit(selectedContact!!, authRepo.currentUser!!.uid)
+            selectedRecipe!!.name = name
+//            selectedRecipe!!.category = category
+            selectedRecipe!!.ingredients = ingredients
+            selectedRecipe!!.instructions = instructions
+
+            repo.edit(selectedRecipe!!, authRepo.currentUser!!.uid)
         }
     }
 
@@ -59,7 +65,7 @@ class EditViewModel(private val authRepo: AuthRepo, private val repo: ContactRep
             initializer {
                 EditViewModel(
                     authRepo = ContactApplication.container.authRepository,
-                    repo = ContactApplication.container.contactRepository
+                    repo = ContactApplication.container.recipeRepository
                 )
             }
         }

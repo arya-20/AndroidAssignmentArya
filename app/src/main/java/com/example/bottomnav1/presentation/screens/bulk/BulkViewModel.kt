@@ -11,8 +11,8 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bottomnav1.core.ContactApplication
 import com.example.bottomnav1.data.DatabaseState
 import com.example.bottomnav1.data.auth.AuthRepo
+import com.example.bottomnav1.data.contact1.Contact
 import com.example.bottomnav1.data.contact1.ContactRepository
-import com.example.bottomnav1.data.recipe1.Category
 import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.data.recipe1.RecipeRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,6 +29,8 @@ class BulkViewModel(
 
     private val _recipeState = MutableStateFlow(DatabaseState<List<Recipe>>())
     val recipeState: StateFlow<DatabaseState<List<Recipe>>> = _recipeState.asStateFlow()
+    private val _userState = MutableStateFlow<DatabaseState<Contact?>>(DatabaseState())
+    val userState: StateFlow<DatabaseState<Contact?>> = _userState
 
     var selectedRecipe: Recipe? by mutableStateOf(null)
     var recipeId by mutableStateOf("")
@@ -36,31 +38,23 @@ class BulkViewModel(
     init {
         val currentUser = authRepo.currentUser
         if (currentUser != null) {
-            getBulkRecipesForCurrentUser(currentUser.uid)
+            getCurrentUserDetails(currentUser.uid)
         }
     }
 
     //function to fetch bulk recipes
-    private fun getBulkRecipesForCurrentUser(userId: String) {
+    private fun getCurrentUserDetails(userId: String) {
         viewModelScope.launch {
-            try {
-                _recipeState.value = _recipeState.value.copy(isLoading = true)
+            val contact = contactRepo.getContactById(userId)
+            _userState.value = DatabaseState(data = contact)
+            contact?.let {fetchRecipesForUser (it)}
+        }
+    }
 
-                //fetch current user's contacts
-                val currentUserContact = contactRepo.getContactForUser(userId)
-
-                val bulkRecipes = currentUserContact?.recipe?.filter { recipe ->
-                    recipe.category == Category.BULK
-                } ?: emptyList()
-
-                _recipeState.value = DatabaseState(data = bulkRecipes)
-
-            } catch (e: Exception) {
-                _recipeState.value =
-                    _recipeState.value.copy(errorMessage = e.message ?: "Unknown error")
-            } finally {
-                _recipeState.value = _recipeState.value.copy(isLoading = false)
-            }
+    private fun fetchRecipesForUser(contact: Contact) {
+        viewModelScope.launch {
+            val recipeResult = contact.recipe ?: emptyList()
+            _recipeState.value = DatabaseState(data = recipeResult)
         }
     }
 

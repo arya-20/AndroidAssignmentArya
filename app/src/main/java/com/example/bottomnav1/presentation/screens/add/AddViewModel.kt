@@ -6,15 +6,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bottomnav1.core.ContactApplication
 import com.example.bottomnav1.data.auth.AuthRepo
+import com.example.bottomnav1.data.contact1.ContactRepository
 import com.example.bottomnav1.data.recipe1.Category
 import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.data.recipe1.RecipeRepository
+import kotlinx.coroutines.launch
 
-class AddViewModel (private val authRepo: AuthRepo, private val repo: RecipeRepository) : ViewModel() {
+class AddViewModel (private val authRepo: AuthRepo, private val repo: RecipeRepository, private val contactRepo: ContactRepository) : ViewModel() {
     var name by mutableStateOf("")
     var category by mutableStateOf <Category?> (null)
     var ingredients by mutableStateOf("")
@@ -41,9 +44,24 @@ class AddViewModel (private val authRepo: AuthRepo, private val repo: RecipeRepo
                 instructions = instructions
             )
             repo.add(newRecipe)
+            addRecipeToContact(newRecipe)
 
             Log.d("new recipe :", "$newRecipe")
             clearFields()
+        }
+    }
+
+    private fun addRecipeToContact(recipe: Recipe) {
+        viewModelScope.launch {
+            val currentUserContact = contactRepo.getCurrentContact()
+            if (currentUserContact != null) {
+                val updatedContact = currentUserContact.copy(
+                    recipe = currentUserContact.recipe?.plus(recipe) ?: listOf(recipe)
+                )
+                contactRepo.updateContact(updatedContact)
+            } else {
+                // Handle case where contact doesn't exist (optional)
+            }
         }
     }
 
@@ -60,7 +78,8 @@ class AddViewModel (private val authRepo: AuthRepo, private val repo: RecipeRepo
             initializer {
                 AddViewModel(
                     authRepo = ContactApplication.container.authRepository,
-                    repo = ContactApplication.container.recipeRepository
+                    repo = ContactApplication.container.recipeRepository,
+                    contactRepo = ContactApplication.container.contactRepository
                 )
             }
         }

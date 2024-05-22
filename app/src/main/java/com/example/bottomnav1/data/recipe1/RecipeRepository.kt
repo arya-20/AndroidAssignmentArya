@@ -7,15 +7,10 @@ import kotlinx.coroutines.flow.Flow
 import java.util.UUID
 
 interface RecipeRepo {
-
     fun delete(recipe: Recipe): Task<Void>
-
     fun add(recipe: Recipe)
-
     fun edit(recipe: Recipe, recipeUUID: String)
-
     suspend fun getAll(recipeUUID: String): Flow<DatabaseResult<List<Recipe?>>>
-
     suspend fun getRecipeById(recipeId: String): Recipe?
 }
 

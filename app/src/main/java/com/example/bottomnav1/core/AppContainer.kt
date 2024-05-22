@@ -59,8 +59,7 @@ class AppDataContainer : AppContainer {
         val recipeRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference("$APPENDED_TEST_PATH $RECIPE_ROOT_FOLDER")
         recipeRepository = RecipeRepository(RecipeDAO(recipeRoot))
 
-        authRepository = AuthRepository (
-            FirebaseAuth.getInstance(),contactRepository
+        authRepository = AuthRepository (FirebaseAuth.getInstance(),contactRepository
         )
     }
 }

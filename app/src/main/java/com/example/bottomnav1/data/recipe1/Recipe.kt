@@ -9,10 +9,10 @@ enum class Category{
 }
 data class Recipe(
 
-    val name: String? = null,
-    val category: Category? =null,
-    val ingredients: String? = null,
-    val instructions: String? = null
+    var name: String? = null,
+    var category: Category? =null,
+    var ingredients: String? = null,
+    var instructions: String? = null
 ) {
     var id:String? =null //UUID
     override fun toString(): String = "$name $category $ingredients $instructions"

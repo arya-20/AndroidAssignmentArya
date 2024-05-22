@@ -27,11 +27,13 @@ fun RecipeDetailsScreen(recipeName: String,
                         vm:  RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory),
                         navController: NavController) {
 
+    val backStackEntry = navController.currentBackStackEntry
+    val recipeId = backStackEntry?.arguments?.getString("recipeId") ?: return
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Team Details") },
+                title = { Text(text = "Recipe Details") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(

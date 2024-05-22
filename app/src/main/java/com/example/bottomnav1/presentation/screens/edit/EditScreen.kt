@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.bottomnav1.R
-import com.example.bottomnav1.data.contact1.Contact
+import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.presentation.components.BottomNavBar
 import com.example.bottomnav1.presentation.components.CustomButton
 import com.example.bottomnav1.presentation.components.CustomTextField
@@ -27,11 +27,11 @@ import com.example.bottomnav1.presentation.components.CustomTextField
 fun EditScreen(vm: EditViewModel = viewModel(factory = EditViewModel.Factory),
                modifier: Modifier = Modifier,
                navController: NavHostController,
-               selectedContact: Contact,
+               selectedRecipe: Recipe,
                onClickToHome: () -> Unit){
 
     LaunchedEffect(key1 = Unit) {//Called on launch
-        vm.setSelectedContact(selectedContact)
+        vm.setSelectedContact(selectedRecipe)
     }
 
     Scaffold(
@@ -55,28 +55,37 @@ fun EditScreen(vm: EditViewModel = viewModel(factory = EditViewModel.Factory),
             )
             Column {
                 CustomTextField(
-                    stringResource(R.string.email_hint),
-                    text = vm.email,
-                    onValueChange = { vm.email = it },
-                    errorMessage = stringResource(R.string.first_name_error_message),
-                    errorPresent = vm.emailIsValid()
+                    stringResource(R.string.name),
+                    text = vm.name,
+                    onValueChange = { vm.name = it },
+                    errorMessage = stringResource(R.string.name_error),
+                    errorPresent = vm.nameIsValid()
+                )
+
+//                CustomTextField(
+//                    stringResource(R.string.category),
+//                    text = vm.password,
+//                    onValueChange = { vm.password = it },
+//                    errorMessage = stringResource(R.string.surname_error_message),
+//                    errorPresent = vm.passwordIsValid()
+//                )
+
+                CustomTextField(
+                    stringResource(R.string.ingredients),
+                    text = vm.ingredients,
+                    onValueChange = { vm.ingredients = it },
+                    errorMessage = stringResource(R.string.ingredients),
+                    errorPresent = vm.ingredientsIsValid()
                 )
 
                 CustomTextField(
-                    stringResource(R.string.password_hint),
-                    text = vm.password,
-                    onValueChange = { vm.password = it },
-                    errorMessage = stringResource(R.string.surname_error_message),
-                    errorPresent = vm.passwordIsValid()
+                    stringResource(R.string.instructions),
+                    text = vm.instructions,
+                    onValueChange = { vm.instructions = it },
+                    errorMessage = stringResource(R.string.instructions),
+                    errorPresent = vm.instructionsIsValid()
                 )
 
-                CustomTextField(
-                    stringResource(R.string.recipe_hint),
-                    text = vm.recipe,
-                    onValueChange = { vm.recipe = it },
-                    errorMessage = stringResource(R.string.tel_no_error_message),
-                    errorPresent = vm.recipeIsValid()
-                )
 
                 CustomButton(
                     stringResource(R.string.edit),

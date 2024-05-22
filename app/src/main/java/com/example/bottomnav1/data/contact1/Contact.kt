@@ -7,6 +7,6 @@ data class Contact(
     var password: String? =null,
     var recipe: List<Recipe>? =null
 ) {
-    var id:String? =null //UUID
+    var id:String? =null //UuId
     override fun toString(): String = "$email $password $recipe"
 }

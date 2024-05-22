@@ -85,7 +85,7 @@ fun AddScreen(vm: AddViewModel = viewModel(factory = AddViewModel.Factory),
                     stringResource(R.string.ingredients),
                     text = vm.ingredients,
                     onValueChange = { vm.ingredients = it },
-                    errorMessage = stringResource(R.string.name_error),
+                    errorMessage = stringResource(R.string.ingredients_error),
                     !vm.isIngredientsValid()
                 )
 
@@ -93,7 +93,7 @@ fun AddScreen(vm: AddViewModel = viewModel(factory = AddViewModel.Factory),
                     stringResource(R.string.instructions),
                     text = vm.instructions,
                     onValueChange = { vm.instructions = it },
-                    errorMessage = stringResource(R.string.name_error),
+                    errorMessage = stringResource(R.string.instructions_error),
                     !vm.isInstructionsValid()
                 )
 
@@ -117,22 +117,22 @@ fun RoleSelectionDropdown(
     categoryisValid: Boolean
 ) {
 
-    var expanded by remember { mutableStateOf(true) } // Track dropdown state
+    var expanded by remember { mutableStateOf(true) }
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp)
     ) {
-        OutlinedTextField( // Use OutlinedTextField for dropdown appearance
-            value = if (selectedCategory == Category.NONE) stringResource(R.string.select_category) else selectedCategory.name, // Set initial value to selected role name or placeholder // Set initial value to selected role name
-            onValueChange = { }, // Disable text editing (optional)
-            readOnly = true, // Make the field read-only (optional)
+        OutlinedTextField(
+            value = if (selectedCategory == Category.NONE) stringResource(R.string.select_category) else selectedCategory.name,
+            onValueChange = { },
+            readOnly = true,
             modifier = Modifier.fillMaxWidth(),
-            label = { Text(stringResource(R.string.select_category)) }, // Set label
-            trailingIcon = { // Add dropdown icon
+            label = { Text(stringResource(R.string.select_category)) },
+            trailingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.dropdown), // Replace with your icon drawable
+                    painter = painterResource(id = R.drawable.dropdown),
                     contentDescription = null
                 )
             }
@@ -140,7 +140,7 @@ fun RoleSelectionDropdown(
         if (expanded) {
             Surface(
                 modifier = Modifier.fillMaxWidth(),
-                color = Color.LightGray// Set the background color here
+                color = Color.Gray
             ) {
                 DropdownMenu(
                     expanded = expanded,

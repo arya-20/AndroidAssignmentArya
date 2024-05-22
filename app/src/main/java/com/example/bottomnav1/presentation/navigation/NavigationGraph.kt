@@ -168,9 +168,9 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         }
         composable(NavScreen.Edit.route) {
             EditScreen(navController = navController,
-                        selectedContact=selectedContact!!,
+                        selectedRecipe=selectedRecipe!!,
                         onClickToHome = {
-                            if(selectedContact!=null) {
+                            if(selectedRecipe!=null) {
                                 navController.navigate("home")
                             }
                         })

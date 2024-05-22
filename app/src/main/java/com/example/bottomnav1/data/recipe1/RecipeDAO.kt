@@ -1,6 +1,5 @@
 package com.example.bottomnav1.data.recipe1
 
-import android.util.Log
 import com.example.bottomnav1.data.DatabaseResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,7 +19,6 @@ class RecipeDAO(private var database: DatabaseReference) {
 
     fun insert(newRecipe: Recipe, recipeId: String) {
 
-        Log.d("RecipeDao", "Inserting recipe with ID: $recipeId")
         database.child(recipeId).setValue(newRecipe)
     }
 

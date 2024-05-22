@@ -14,7 +14,14 @@ interface ContactRepo{
     fun edit(contact: Contact, contactUUID: String)
 
     suspend fun getAll(contactUUID: String): Flow<DatabaseResult<List<Contact?>>>
-}
+
+    suspend fun updateContact(contact: Contact)
+
+    suspend fun getCurrentContact(): Contact?
+
+     suspend fun getContactById(contactId: String): Contact?
+
+    }
 
 class ContactRepository(private val contactDAO: ContactDAO) : ContactRepo {
     override suspend fun getContactForUser(userId: String): Contact? {
@@ -30,4 +37,17 @@ class ContactRepository(private val contactDAO: ContactDAO) : ContactRepo {
     override suspend fun getAll(contactUUID: String): Flow<DatabaseResult<List<Contact?>>> {
         return contactDAO.getContacts(contactUUID)
     }
+
+    override suspend fun updateContact(contact: Contact) {
+        contactDAO.updateContact(contact)
+    }
+
+    override suspend fun getCurrentContact(): Contact? {
+        return contactDAO.getCurrentContact()
+    }
+
+    override suspend fun getContactById(contactId: String): Contact? {
+        return contactDAO.getContactById(contactId)
+    }
 }
+

@@ -1,4 +1,4 @@
-package com.example.bottomnav1.presentation.screens.bulk.component
+package com.example.bottomnav1.presentation.screens.vegan.component
 import android.annotation.SuppressLint
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -18,7 +18,7 @@ fun LazyColumnWithSelection(
     var selectedIndexToHighlight by remember { mutableStateOf(-1) }
     LazyColumn {
         itemsIndexed(recipes) { index, recipe ->
-            com.example.bottomnav1.presentation.screens.vegan.component.ItemView(
+            ItemView(
                 index = index,
                 recipe = recipe,
                 selected = selectedIndexToHighlight == index,

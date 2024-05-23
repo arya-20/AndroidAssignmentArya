@@ -76,7 +76,7 @@ fun AddScreen(vm: AddViewModel = viewModel(factory = AddViewModel.Factory),
                 )
 
                 RoleSelectionDropdown(
-                    selectedCategory = vm.category ?: Category.BULK,
+                    selectedCategory = vm.category ?: Category.NONE,
                     onCategorySelected = { category -> vm.category = category },
                     categoryisValid = vm.isCategoryValid()
                 )

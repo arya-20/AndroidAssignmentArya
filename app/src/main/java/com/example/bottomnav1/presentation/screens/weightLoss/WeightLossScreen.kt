@@ -1,4 +1,4 @@
-package com.example.bottomnav1.presentation.screens.vegan
+package com.example.bottomnav1.presentation.screens.weightLoss
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -46,9 +46,9 @@ import com.example.bottomnav1.presentation.theme.DarkBlue
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter", "StateFlowValueCalledInComposition")
 @Composable
-fun VeganScreen(
+fun WeightLossScreen(
     navController: NavHostController,
-    viewModel: VeganViewModel = viewModel(factory = com.example.bottomnav1.presentation.screens.vegan.VeganViewModel.Factory),
+    viewModel: WeightLossViewModel = viewModel(factory = WeightLossViewModel.Factory),
     onClickToRecipeDetailScreen: (String) -> Unit,
     onClickToAddRecipe: () -> Unit,
     onIndexChange: (Recipe?) -> Unit,
@@ -65,12 +65,12 @@ fun VeganScreen(
         topBar = {
             Column {
                 Text(
-                    text = "Vegan Recipes",
+                    text = "Weight Loss Recipes",
                     style = MaterialTheme.typography.h4,
                     modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 8.dp)
                 )
                 Text(
-                    text = "You can add your vegan recipes below using the add button.",
+                    text = "To lose weight, you need low carb, high protein meals. Minimize sugary or oily food. You can add your Weight Loss recipes below using the add button.",
                     style = MaterialTheme.typography.body2,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
@@ -168,7 +168,7 @@ fun RecipeItem (recipe: Recipe, onClick: () -> Unit) {
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp, horizontal = 18.dp)
-            .clip(RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(27.dp))
             .clickable(onClick = onClick)
     ) {
         Column(

@@ -1,10 +1,12 @@
 package com.example.bottomnav1.presentation.screens.recipe
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.bottomnav1.core.ContactApplication
+import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.data.recipe1.RecipeRepository
 import kotlinx.coroutines.launch
 
@@ -31,6 +33,17 @@ class RecipeDetailViewModel(
                 ingredients = recipe.ingredients ?: ""
                 instructions = recipe.instructions ?: ""
     }
+
+    fun deleteRecipe(recipe: Recipe) {
+        viewModelScope.launch {
+            Log.d("RecipeDetailViewModel", "Deleting recipe: $recipe")
+            recipeRepo.delete(recipe)
+            Log.d("RecipeDetailViewModel", "Recipe deleted successfully")
+
+        }
+    }
+
+
 
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {

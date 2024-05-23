@@ -1,4 +1,4 @@
-package com.example.bottomnav1.presentation.screens.vegan
+package com.example.bottomnav1.presentation.screens.weightLoss
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,7 +21,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 
-class VeganViewModel(
+class WeightLossViewModel(
     private val authRepo: AuthRepo,
     private val recipeRepository: RecipeRepository,
     private val contactRepo: ContactRepository
@@ -66,7 +66,7 @@ class VeganViewModel(
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
-                VeganViewModel(
+                WeightLossViewModel(
                     authRepo = ContactApplication.container.authRepository,
                     recipeRepository = ContactApplication.container.recipeRepository,
                     contactRepo = ContactApplication.container.contactRepository

@@ -15,6 +15,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import com.example.bottomnav1.presentation.theme.DarkBlue
 
 
 @Composable
@@ -41,13 +42,13 @@ fun CustomTextField(
             imeAction = ImeAction.Done
         ),
         modifier = Modifier.padding(10.dp)
-            .border(1.dp, Color.Black, RoundedCornerShape(27.dp)),
+            .border(1.dp, Color.Gray, RoundedCornerShape(27.dp)),
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.textFieldColors(
-            textColor = Color.Black,
+            textColor = Color.Gray,
             backgroundColor = Color.Transparent,
-            cursorColor = Color.Black,
-            errorCursorColor = Color.Red
+            cursorColor = DarkBlue,
+            errorCursorColor = Color.White
         ),
         textStyle = LocalTextStyle.current.copy(color = Color.Black)
     )
@@ -58,7 +59,7 @@ fun CustomTextField(
         Text(
             modifier = Modifier.padding(start = 10.dp, top = 2.dp),
             text = errorMessage,
-            color = Color.Red
+            color = Color.White
         )
     }
 }

@@ -4,6 +4,9 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.FabPosition
+import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -17,15 +20,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.bottomnav1.R
+import com.example.bottomnav1.data.recipe1.Recipe
+import com.example.bottomnav1.presentation.theme.DarkBlue
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
-fun RecipeDetailsScreen(recipeName: String,
-                        vm:  RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory),
-                        navController: NavController) {
+fun RecipeDetailsScreen(
+    navController: NavHostController,
+    recipeName: String,
+    recipe: Recipe,
+    onClickToEditRecipe: (String) -> Unit,
+    vm:  RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory),
+) {
+
 
     val backStackEntry = navController.currentBackStackEntry
     val recipeId = backStackEntry?.arguments?.getString("recipeId") ?: return
@@ -38,12 +48,48 @@ fun RecipeDetailsScreen(recipeName: String,
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
                             painterResource(id = R.drawable.back),
-                            contentDescription = "Back")
+                            contentDescription = "Back",
+                            modifier = Modifier
+                                .padding(bottom = 8.dp)
+                                .size(150.dp))
+
                     }
                 }
             )
         },
         modifier = Modifier.fillMaxSize(),
+        floatingActionButtonPosition = FabPosition.End,
+        floatingActionButton = {
+            Column {
+                FloatingActionButton(
+                    onClick = { onClickToEditRecipe(recipeId) },
+                    backgroundColor = DarkBlue,
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.edit),
+                        contentDescription = "Edit",
+                        tint = Color.White
+                    )
+                }
+                FloatingActionButton(
+                    onClick = {
+                        vm.deleteRecipe(recipe)
+                        navController.popBackStack()
+                    },
+                    backgroundColor = Color.Red,
+                    modifier = Modifier.padding(8.dp)
+
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.delete),
+                        contentDescription = "Delete",
+                        tint = Color.White
+                    )
+                }
+            }
+        }
+
     )
 
     {
@@ -81,6 +127,6 @@ fun RecipeDetailsScreen(recipeName: String,
                 color = Color.White,
                 modifier = Modifier.padding(8.dp)
             )
-                }
-            }
         }
+    }
+}

@@ -10,4 +10,8 @@ class SettingsViewModel : ViewModel() {
     fun isDarkModeEnabled(): Boolean {
         return isSystemInDarkTheme()
     }
+
+    fun isNotificationsEnabled(): Boolean {
+        return false
+    }
 }

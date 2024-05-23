@@ -16,13 +16,13 @@ class EditViewModel(private val authRepo: AuthRepo, private val repo: RecipeRepo
     private var selectedRecipe: Recipe? = null
 
     var name by mutableStateOf(String())
-    var category by mutableStateOf(String())
+    var category by mutableStateOf(listOf<String>())
     var ingredients by mutableStateOf(String())
     var instructions by mutableStateOf(String())
 
     fun setSelectedContact(recipe: Recipe) {
         name = recipe.name.toString()
-        category = recipe.category.toString()
+//        category = recipe.category.toString()
         ingredients = recipe.ingredients.toString()
         instructions = recipe.instructions.toString()
         selectedRecipe = recipe
@@ -33,7 +33,7 @@ class EditViewModel(private val authRepo: AuthRepo, private val repo: RecipeRepo
     }
 
     fun categoryIsValid(): Boolean {
-        return category.isNotBlank()
+        return category.isNotEmpty()
     }
 
     fun ingredientsIsValid(): Boolean {
@@ -59,7 +59,6 @@ class EditViewModel(private val authRepo: AuthRepo, private val repo: RecipeRepo
         }
     }
 
-    // Define ViewModel factory in a companion object
     companion object {
         val Factory: ViewModelProvider.Factory = viewModelFactory() {
             initializer {

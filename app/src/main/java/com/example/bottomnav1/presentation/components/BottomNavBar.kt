@@ -21,7 +21,7 @@ import com.example.bottomnav1.presentation.navigation.NavScreen
 fun BottomNavBar(navController: NavController) {
     BottomNavigation(
         modifier = Modifier
-            .background(color = Color.Blue, shape = RoundedCornerShape(16.dp))
+            .background(color = Color.Gray, shape = RoundedCornerShape(16.dp))
             .fillMaxWidth(),
         contentColor = Color.White,
         elevation = 8.dp
@@ -34,7 +34,7 @@ fun BottomNavBar(navController: NavController) {
                 icon = { Icon(painterResource(id = item.icon), contentDescription = item.route) },
                 label = { Text(text = item.route, fontSize = 9.sp) },
                 selectedContentColor = Color.White,
-                unselectedContentColor = Color.White.copy(alpha = 0.4f),
+                unselectedContentColor = Color.LightGray.copy(alpha = 0.4f),
                 alwaysShowLabel = true,
                 selected = currentRoute == item.route,
                 onClick = {

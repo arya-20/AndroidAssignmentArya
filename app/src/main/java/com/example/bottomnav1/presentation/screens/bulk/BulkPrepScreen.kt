@@ -49,12 +49,12 @@ import com.example.bottomnav1.presentation.theme.DarkBlue
 @Composable
 fun BulkPrepScreen(
     navController: NavHostController,
-    viewModel: BulkViewModel = viewModel(factory = BulkViewModel.Factory),
+    viewModel: com.example.bottomnav1.presentation.screens.bulk.BulkViewModel = viewModel(factory = BulkViewModel.Factory),
     onClickToRecipeDetailScreen: (String) -> Unit,
-    onClickToEditRecipe: (String) -> Unit,
     onClickToAddRecipe: () -> Unit,
-    onIndexChange: (Recipe?) -> Unit
-) {
+    onIndexChange: (Recipe?) -> Unit,
+
+    ) {
     //collect recipes from the view model
     val context = LocalContext.current.applicationContext as ContactApplication
     val recipeState by viewModel.recipeState.collectAsState()
@@ -107,7 +107,10 @@ fun BulkPrepScreen(
 
             val recipeState = recipeState.data ?: emptyList()
             if (recipeState.isNotEmpty()) {
-                RecipeSection("", recipeState) { recipeId ->
+                com.example.bottomnav1.presentation.screens.vegan.RecipeSection(
+                    "",
+                    recipeState
+                ) { recipeId ->
                     onClickToRecipeDetailScreen(recipeId)
                 }
             }
@@ -153,7 +156,9 @@ fun BulkPrepScreen(
                                     .fillMaxWidth()
                             ) {
                                 items(recipe) { recipe ->
-                                    RecipeItem(recipe, onClick = { onClick(recipe.id ?: "") })
+                                    com.example.bottomnav1.presentation.screens.vegan.RecipeItem(
+                                        recipe,
+                                        onClick = { onClick(recipe.id ?: "") })
                                 }
                             }
                         }

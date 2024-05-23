@@ -1,4 +1,5 @@
-package com.example.bottomnav1.presentation.screens.bulk.component
+package com.example.bottomnav1.presentation.screens.weightGain.component
+
 import android.annotation.SuppressLint
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -8,6 +9,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.example.bottomnav1.data.recipe1.Recipe
+
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @Composable

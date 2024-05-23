@@ -51,18 +51,18 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                androidx.compose.material.Text(
-                    text = stringResource(R.string.login_screen_title),
-                    textAlign = TextAlign.Center,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
-                )
                 Image(
                     painter = painterResource(id = R.drawable.logo),
                     contentDescription = null,
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .size(150.dp)
+                )
+                androidx.compose.material.Text(
+                    text = stringResource(R.string.login_screen_title),
+                    textAlign = TextAlign.Center,
+                    fontSize = 34.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 CustomTextField(
                     hintText = stringResource(R.string.email),
@@ -72,7 +72,6 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                     !vm.emailIsValid(),
                     isPasswordField = false
                 )
-                SmallSpacer()
                 CustomTextField(
                     hintText = stringResource(R.string.password),
                     text = vm.password,

@@ -17,6 +17,7 @@
     <string name="ingredients_error">Error with the Ingredients</string>
     <string name="instructions">Instructions</string>
     <string name="instructions_error">Error with the Instructions</string>
+    <string name="category"> Category</string>
     <string name="select_category">Select Category</string>
 
 

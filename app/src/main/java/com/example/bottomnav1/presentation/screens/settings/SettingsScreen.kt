@@ -1,12 +1,10 @@
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Button
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Switch
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,6 +28,7 @@ fun SettingsScreen(
 ) {
     //val keyboardController = LocalSoftwareKeyboardController.current
     val isDarkModeEnabled = viewModel.isDarkModeEnabled()
+    val isNotificationsEnabled = viewModel.isNotificationsEnabled()
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -41,9 +40,9 @@ fun SettingsScreen(
             modifier = Modifier.fillMaxSize()
                 .padding(vertical = 16.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Top
         ) {
-            androidx.compose.material.Text(
+            Text(
                 text = stringResource(R.string.settings),
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
@@ -51,8 +50,10 @@ fun SettingsScreen(
                 color = Color.White,
                 modifier = Modifier.padding(vertical = 20.dp)
             )
-            Row {
-                androidx.compose.material.Text(
+            Row(
+                modifier = Modifier.padding(bottom = 16.dp)
+            ) {
+                Text(
                     text = "Dark Mode",
                     fontSize = 16.sp,
                     color = Color.White,
@@ -64,6 +65,34 @@ fun SettingsScreen(
 
                     }
                 )
+            }
+            Row(
+                modifier = Modifier.padding(bottom = 16.dp)
+            ) {
+                Text(
+                    text = "Enable Notifications",
+                    fontSize = 16.sp,
+                    color = Color.White,
+                    modifier = Modifier.padding(end = 40.dp)
+                )
+                Switch(
+                    checked = isNotificationsEnabled,
+                    onCheckedChange = { isChecked ->
+                    }
+                )
+            }
+            Button(
+                onClick = { /* TODO: Implement delete account functionality */ },
+                modifier = Modifier.padding(bottom = 8.dp)
+            ) {
+                Text(text = "Delete Account")
+            }
+            Button(
+                onClick = { /* TODO: Implement change password functionality */ },
+                modifier = Modifier.padding(bottom = 8.dp)
+
+            ) {
+                Text(text = "Change Password")
             }
         }
     }

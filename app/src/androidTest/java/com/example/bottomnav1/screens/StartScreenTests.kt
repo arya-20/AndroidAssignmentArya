@@ -1,9 +1,7 @@
 package com.example.bottomnav1.screens
 
-import androidx.compose.ui.test.SemanticsMatcher
-import androidx.compose.ui.test.hasClickAction
-import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasText
+import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.example.bottomnav1.R
 import org.junit.Before
@@ -14,26 +12,18 @@ import org.junit.runners.MethodSorters
 @FixMethodOrder( MethodSorters.DEFAULT)
 class StartScreenTests : ScreenTests() {
 
-    //For start screen
-    lateinit var appLogo: SemanticsMatcher
-    lateinit var startScreenText : SemanticsMatcher
-    lateinit var startScreenTitle : SemanticsMatcher
-    lateinit var startScreenTitle2 : SemanticsMatcher
-    lateinit var startButton : SemanticsMatcher
 
 
     @Before
     override fun setUp() {
-//        loginScreenTitle = hasText(rule.activity.getString(R.string.login_screen_title))
-        appLogo = hasContentDescription("Logo")
-        startScreenTitle = hasText(rule.activity.getString(R.string.start_title))
-        startScreenTitle2 = hasText(rule.activity.getString(R.string.start_title2))
-        startButton = hasText(rule.activity.getString(R.string.start_button))and hasClickAction()
+        super.setUp()
 
     }
 
-//    private fun `go to the login screen`() {
-//        rule.onNodeWithText("Start").performClick()
+        @Test
+        fun `go to the login screen`() {
+            rule.onNodeWithText("Start").performClick()
+        }
 
 
         @Test

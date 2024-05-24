@@ -71,7 +71,7 @@ fun SignUpScreen(vm: SignUpViewModel = viewModel(factory = SignUpViewModel.Facto
                     clickButton = {
                         keyboard?.hide()
                         vm.signUpWithEmailAndPassword()
-                    }
+                    },
                 )
                 SmallSpacer()
                 Row {

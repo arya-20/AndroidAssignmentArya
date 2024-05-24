@@ -104,11 +104,13 @@ fun TrackScreen(
                     val targetWeightValue = targetWeight.toFloatOrNull() ?: 0f
                     val difference = targetWeightValue - currentWeightValue
                     val unit = if (isKg) "kg" else "lb"
-                    weightDifference = "Weight to go: $difference $unit"
+                    weightDifference = "Weight To Go: $difference $unit"
                     keyboardController?.hide()
                 },
                 modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
+            )
+
+            {
                 Text(text = "Track")
             }
 

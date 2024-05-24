@@ -12,9 +12,11 @@ import com.example.bottomnav1.data.auth.AuthRepo
 import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.data.recipe1.RecipeRepo
 
-class EditViewModel(private val authRepo: AuthRepo, private val repo: RecipeRepo) : ViewModel() {
-    private var selectedRecipe: Recipe? = null
+class EditViewModel(
+    private val authRepo: AuthRepo,
+    private val repo: RecipeRepo) : ViewModel() {
 
+    private var selectedRecipe: Recipe? = null
     var name by mutableStateOf(String())
     var category by mutableStateOf(listOf<String>())
     var ingredients by mutableStateOf(String())
@@ -22,7 +24,7 @@ class EditViewModel(private val authRepo: AuthRepo, private val repo: RecipeRepo
 
     fun setSelectedContact(recipe: Recipe) {
         name = recipe.name.toString()
-//        category = recipe.category.toString()
+        category = recipe.category as List<String>
         ingredients = recipe.ingredients.toString()
         instructions = recipe.instructions.toString()
         selectedRecipe = recipe
@@ -51,7 +53,7 @@ class EditViewModel(private val authRepo: AuthRepo, private val repo: RecipeRepo
             && instructionsIsValid()
         ) {
             selectedRecipe!!.name = name
-//            selectedRecipe!!.category = category
+            selectedRecipe!!.category = null
             selectedRecipe!!.ingredients = ingredients
             selectedRecipe!!.instructions = instructions
 

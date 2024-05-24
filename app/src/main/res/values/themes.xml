@@ -5,4 +5,10 @@
         <item name="android:windowBackground">@drawable/background_gradient</item>
     </style>
 
+    <style name="lightTheme" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">?android:attr/actionModeBackground</item>
+    </style>
+
+
+
 </resources>

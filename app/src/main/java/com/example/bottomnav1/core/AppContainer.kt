@@ -37,18 +37,6 @@ class AppDataContainer : AppContainer {
     override lateinit var authRepository: AuthRepo
 
 
-
-//    init {
-//        val contactRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference(CONTACT_ROOT_FOLDER)
-//        val contactDAO = ContactDAO(contactRoot)
-//        contactRepository = ContactRepository(contactDAO)
-//
-//        val recipeRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference(RECIPE_ROOT_FOLDER)
-//        val recipeDAO = RecipeDAO(recipeRoot)
-//        recipeRepository = RecipeRepository(recipeDAO)
-//
-//    }
-
     init {
         val APPENDED_TEST_PATH = if (isRunningTest) "test" else String()
 
@@ -58,7 +46,6 @@ class AppDataContainer : AppContainer {
 
         val recipeRoot = FirebaseDatabase.getInstance(DATABASE_URL).getReference("$APPENDED_TEST_PATH $RECIPE_ROOT_FOLDER")
         recipeRepository = RecipeRepository(RecipeDAO(recipeRoot))
-
         authRepository = AuthRepository (FirebaseAuth.getInstance(),contactRepository
         )
     }

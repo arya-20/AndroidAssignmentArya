@@ -21,7 +21,7 @@ fun ItemView(
              onClick: (Recipe?) -> Unit){
    recipe?.let { currentRecipe ->
         Text(
-        text = currentRecipe.name ?: "",
+        text = currentRecipe.name?: "",
         modifier = Modifier
             .clickable {
                 onClick.invoke(currentRecipe)

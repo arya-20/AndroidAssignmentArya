@@ -53,8 +53,8 @@ fun BottomNav1Theme(
         modifier = Modifier.fillMaxSize().background(
             brush = Brush.verticalGradient(
                 colors = listOf(
-                    DarkBlue, // Start color (top)
-                    Color.Black // End color (bottom)
+                    DarkBlue,
+                    Color.Black
                 )
             )
         )

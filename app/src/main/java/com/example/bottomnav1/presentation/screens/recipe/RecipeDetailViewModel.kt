@@ -1,5 +1,4 @@
 package com.example.bottomnav1.presentation.screens.recipe
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,7 @@ class RecipeDetailViewModel(
     var category: String = ""
     var ingredients: String = ""
     var instructions: String = ""
-
+    var recipe: Recipe?= null
     init {
         viewModelScope.launch {
             fetchRecipeDetails()
@@ -26,23 +25,23 @@ class RecipeDetailViewModel(
     }
 
     private suspend fun fetchRecipeDetails() {
-        val recipe = recipeRepo.getRecipeById(recipeId) ?: return
+        val trimmedRecipeId = recipeId?.trim()
+        if (trimmedRecipeId.isNullOrEmpty()) return
 
-                name = recipe.name ?: ""
-                category = (recipe.category ?: "").toString()
-                ingredients = recipe.ingredients ?: ""
-                instructions = recipe.instructions ?: ""
+        val recipe = recipeRepo.getRecipeById(trimmedRecipeId) ?: return
+
+        name = recipe.name ?: ""
+        category = recipe.category?.name ?: ""
+        ingredients = recipe.ingredients ?: ""
+        instructions = recipe.instructions ?: ""
     }
 
-    fun deleteRecipe(recipe: Recipe) {
+    fun deleteRecipe() {
         viewModelScope.launch {
-            Log.d("RecipeDetailViewModel", "Deleting recipe: $recipe")
-            recipeRepo.delete(recipe)
-            Log.d("RecipeDetailViewModel", "Recipe deleted successfully")
-
+            recipeRepo.delete(recipe!!)
+            recipe = null
         }
     }
-
 
 
     companion object {

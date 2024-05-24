@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">BottomNav1</string>
+    <string name="app_name">Meal Prep</string>
 
     <string name="id_hint">Id</string>
     <string name="id_error_message">Id is blank</string>

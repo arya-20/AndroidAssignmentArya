@@ -16,21 +16,6 @@ import com.google.firebase.database.ValueEventListener
 import kotlin.properties.Delegates
 
 class MainActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContent {
-//            BottomNav1Theme {
-//                Surface( // A surface container using the 'background' color from the theme
-//                    modifier = Modifier.fillMaxSize(),
-//                    color = MaterialTheme.colorScheme.background,
-//                ) {
-//                    NavigationGraph()
-//                }
-//            }
-//        }
-//    }
-//}
-
 
 
     private lateinit var databaseReference: DatabaseReference
@@ -47,10 +32,8 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-        // Get a reference to your Firebase database
         databaseReference = FirebaseDatabase.getInstance().reference
 
-        // Add a connection state listener
         val connectionListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 connected = snapshot.getValue(Boolean::class.java) ?: false

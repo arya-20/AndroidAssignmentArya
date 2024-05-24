@@ -12,14 +12,8 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runners.MethodSorters
 
-/**
- * fun CustomTextField(hintText: String,
-                                text: String,
-                                isPasswordField: Boolean = false,
-                                onValueChange: (String) -> Unit,
-                                errorMessage: String,
-                                errorPresent: Boolean){
- */
+
+
 @FixMethodOrder( MethodSorters.DEFAULT)
 class CustomTextFieldTests {
     private val HINT_TEXT = "hint text"

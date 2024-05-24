@@ -16,6 +16,8 @@ fun LogIn(
         is Response.Startup -> Unit //Do nothing
         is Response.Loading -> ProgressBar()
         is Response.Success -> {
+//            if(ContactApplication.container.isRunningTest ||
+//                vm.isEmailVerified)
                 LaunchedEffect(key1 = Unit) {
                     navigateToHomeScreen()
                 }

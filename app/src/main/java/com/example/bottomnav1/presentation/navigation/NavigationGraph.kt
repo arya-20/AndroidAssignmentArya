@@ -106,16 +106,12 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         composable(NavScreen.BulkPrep.route) {
             BulkPrepScreen(
                 navController = navController,
-                onClickToAddRecipe = {
-                    navController.navigate(NavScreen.AddRecipe.route)
-                },
                 onClickToRecipeDetailScreen = { recipeId ->
-                    navController.navigate("${NavScreen.BulkPrepView.route}/$recipeId")
-                },
-                onIndexChange = {
-                    selectedRecipe = it
+                    navController.navigate("${NavScreen.BulkPrepView.route}/${recipeId.trim()}")
                 }
-            )
+            ) {
+                navController.navigate(NavScreen.AddRecipe.route)
+            }
         }
         composable("${NavScreen.BulkPrepView.route}/{recipeId}") { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getString("recipeId")
@@ -125,9 +121,9 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                     RecipeDetailsScreen(
                         recipeName = it,
                         navController = navController,
-                        recipe = Recipe(),
+                        recipe = Recipe(recipeId),
                         onClickToEditRecipe = { recipeId ->
-                            navController.navigate("${NavScreen.BulkPrepEdit.route}/$recipeId")
+                            navController.navigate("${NavScreen.Edit.route}/${recipeId.trim()}")
                         }
                     )
                 } ?: run {
@@ -262,7 +258,8 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                             if (selectedRecipe != null) {
                                 navController.navigate("home")
                             }
-                        })
+                        }
+                    )
                 }
                 composable(NavScreen.Settings.route) {
                     SettingsScreen(

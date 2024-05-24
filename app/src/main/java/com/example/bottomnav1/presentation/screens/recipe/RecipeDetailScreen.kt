@@ -38,7 +38,7 @@ fun RecipeDetailsScreen(
 
 
     val backStackEntry = navController.currentBackStackEntry
-    val recipeId = backStackEntry?.arguments?.getString("recipeId") ?: return
+    val recipeId = backStackEntry?.arguments?.getString("recipeId")?.trim() ?: return
 
     Scaffold(
         topBar = {
@@ -51,7 +51,7 @@ fun RecipeDetailsScreen(
                             contentDescription = "Back",
                             modifier = Modifier
                                 .padding(bottom = 8.dp)
-                                .size(150.dp))
+                                .size(70.dp))
 
                     }
                 }
@@ -74,7 +74,7 @@ fun RecipeDetailsScreen(
                 }
                 FloatingActionButton(
                     onClick = {
-                        vm.deleteRecipe(recipe)
+                        vm.deleteRecipe()
                         navController.popBackStack()
                     },
                     backgroundColor = Color.Red,
@@ -100,28 +100,28 @@ fun RecipeDetailsScreen(
         ) {
 
             Text(
-                text = "Name: ${vm.name }",
+                text = "Name: ${vm.name}",
                 textAlign = TextAlign.Start,
                 fontSize = 18.sp,
                 color = Color.White,
                 modifier = Modifier.padding(8.dp)
             )
             Text(
-                text = "Category: ${vm.category }",
+                text = "Category: ${vm.category}",
                 textAlign = TextAlign.Start,
                 fontSize = 18.sp,
                 color = Color.White,
                 modifier = Modifier.padding(8.dp)
             )
             Text(
-                text = "Ingredients: ${vm.ingredients }",
+                text = "Ingredients: ${vm.ingredients}",
                 textAlign = TextAlign.Start,
                 fontSize = 18.sp,
                 color = Color.White,
                 modifier = Modifier.padding(8.dp)
             )
             Text(
-                text = "Instructions: ${vm.instructions }",
+                text = "Instructions: ${vm.instructions}",
                 textAlign = TextAlign.Start,
                 fontSize = 18.sp,
                 color = Color.White,

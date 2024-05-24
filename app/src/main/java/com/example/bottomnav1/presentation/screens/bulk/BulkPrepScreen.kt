@@ -26,7 +26,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.Black
 import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.White
@@ -49,10 +48,9 @@ import com.example.bottomnav1.presentation.theme.DarkBlue
 @Composable
 fun BulkPrepScreen(
     navController: NavHostController,
-    viewModel: com.example.bottomnav1.presentation.screens.bulk.BulkViewModel = viewModel(factory = BulkViewModel.Factory),
+    viewModel: BulkViewModel = viewModel(factory = BulkViewModel.Factory),
     onClickToRecipeDetailScreen: (String) -> Unit,
     onClickToAddRecipe: () -> Unit,
-    onIndexChange: (Recipe?) -> Unit,
 
     ) {
     //collect recipes from the view model
@@ -66,7 +64,7 @@ fun BulkPrepScreen(
         topBar = {
             Column {
                 Text(
-                    text = "Bulk Preperation Recipes",
+                    text = "Bulk Preparation Recipes",
                     style = MaterialTheme.typography.h4,
                     modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 8.dp)
                 )
@@ -88,8 +86,7 @@ fun BulkPrepScreen(
                 Icon(
                     painter = painterResource(id = R.drawable.add),
                     contentDescription = "Add",
-                    tint = Color.White
-                )
+                    tint = White,)
             }
         }
     )
@@ -107,7 +104,7 @@ fun BulkPrepScreen(
 
             val recipeState = recipeState.data ?: emptyList()
             if (recipeState.isNotEmpty()) {
-                com.example.bottomnav1.presentation.screens.vegan.RecipeSection(
+                RecipeSection(
                     "",
                     recipeState
                 ) { recipeId ->
@@ -118,76 +115,69 @@ fun BulkPrepScreen(
     }
 }
 
-            @Composable
-            fun RecipeSection(title: String, recipe: List<Recipe>, onClick: (String) -> Unit) {
-                val isSelected = remember{ mutableStateOf(false) }
+@Composable
+fun RecipeSection(title: String, recipe: List<Recipe>, onClick: (String) -> Unit) {
+    val isSelected = remember{ mutableStateOf(false) }
 
-                val backgroundColor = if (isSelected.value) White else Gray
-                Surface(
-                    color = White,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp)
-                        .clip(RoundedCornerShape(24.dp))
-                ) {
-                    Column(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 18.dp)
-                    ) {
-                        Text(
-                            text = title,
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.Black,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.padding(top = 16.dp)
-                        )
-
-                        Box(
-                            modifier = Modifier
-                                .background(backgroundColor)
-                                .padding(horizontal = 16.dp, vertical = 8.dp)
-                                .clickable(
-                                    onClick = { isSelected.value = !isSelected.value }
-                                )
-                        ) {
-
-                            LazyColumn(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                            ) {
-                                items(recipe) { recipe ->
-                                    com.example.bottomnav1.presentation.screens.vegan.RecipeItem(
-                                        recipe,
-                                        onClick = { onClick(recipe.id ?: "") })
-                                }
-                            }
-                        }
+    val backgroundColor = if (isSelected.value) White else Gray
+    Surface(
+        color = White,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 8.dp)
+            .clip(RoundedCornerShape(27.dp))
+    ) {
+        Column(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 18.dp)
+        ) {
+            Text(
+                text = title,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold,
+                color = Black,
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            Box(
+                modifier = Modifier
+                    .background(backgroundColor)
+                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .clickable(
+                        onClick = { isSelected.value = !isSelected.value }
+                    )
+            ) {
+                LazyColumn(modifier = Modifier.fillMaxWidth())
+                {
+                    items(recipe) { recipe ->
+                        RecipeItem(
+                            recipe,
+                            onClick = { onClick(recipe.id?:"") })
                     }
                 }
             }
-
-
-            @Composable
-            fun RecipeItem (recipe: Recipe, onClick: () -> Unit) {
-                Surface(
-                    color = White,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 8.dp, horizontal = 18.dp)
-                        .clip(RoundedCornerShape(24.dp))
-                        .clickable(onClick = onClick)
-                ) {
-                    Column(
-                        modifier = Modifier.padding(16.dp)
-                    ) {
-                        Text(
-                            text = recipe.name ?: "",
-                            fontSize = 18.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = Black,
-                            textAlign = TextAlign.Start,
-                            modifier = Modifier.padding(bottom = 8.dp)
-                        )
-                    }
-                }
-            }
+        }
+    }
+}
+ @Composable
+ fun RecipeItem (recipe: Recipe, onClick: () -> Unit) {
+     Surface(
+         color = White,
+         modifier = Modifier
+             .fillMaxWidth()
+             .padding(vertical = 8.dp, horizontal = 18.dp)
+             .clip(RoundedCornerShape(24.dp))
+             .clickable(onClick = onClick)
+     ) {
+         Column(
+             modifier = Modifier.padding(16.dp)) {
+             Text(
+                 text = recipe.name?: "",
+                 fontSize = 18.sp,
+                 fontWeight = FontWeight.Bold,
+                 color = Black,
+                 textAlign = TextAlign.Start,
+                 modifier = Modifier.padding(bottom = 8.dp)
+             )
+         }
+     }
+ }

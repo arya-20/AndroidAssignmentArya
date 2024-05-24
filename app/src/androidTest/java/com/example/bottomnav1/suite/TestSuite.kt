@@ -5,7 +5,7 @@ import com.example.bottomnav1.components.CustomTextFieldTests
 import com.example.bottomnav1.screens.AddScreenTests
 import com.example.bottomnav1.screens.HomeScreenTests
 import com.example.bottomnav1.screens.LoginScreenTests
-import com.example.bottomnav1.screens.SignUpPageTests
+import com.example.bottomnav1.screens.SignUpScreenTests
 import org.junit.runner.RunWith
 import org.junit.runners.Suite
 
@@ -14,7 +14,7 @@ import org.junit.runners.Suite
                 CustomButtonTests::class,
                 CustomTextFieldTests::class,
                 LoginScreenTests::class,
-                SignUpPageTests::class,
+                SignUpScreenTests::class,
                 HomeScreenTests::class,
                 AddScreenTests::class
                 //EditScreenTests::class

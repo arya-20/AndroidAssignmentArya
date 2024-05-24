@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -58,7 +59,7 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                         .padding(bottom = 8.dp)
                         .size(150.dp)
                 )
-                androidx.compose.material.Text(
+                Text(
                     text = stringResource(R.string.login_screen_title),
                     textAlign = TextAlign.Center,
                     fontSize = 34.sp,

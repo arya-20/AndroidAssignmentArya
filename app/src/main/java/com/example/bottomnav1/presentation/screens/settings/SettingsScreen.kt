@@ -20,6 +20,7 @@ import com.example.bottomnav1.R
 import com.example.bottomnav1.presentation.components.BottomNavBar
 import com.example.bottomnav1.presentation.screens.settings.SettingsViewModel
 
+
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun SettingsScreen(
@@ -27,7 +28,8 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = viewModel(),
 ) {
     //val keyboardController = LocalSoftwareKeyboardController.current
-    val isDarkModeEnabled = viewModel.isDarkModeEnabled()
+
+    val isLightModeEnabled = viewModel.isLightModeEnabled(lightTheme = true)
     val isNotificationsEnabled = viewModel.isNotificationsEnabled()
 
     Scaffold(
@@ -60,7 +62,7 @@ fun SettingsScreen(
                     modifier = Modifier.padding(end = 40.dp)
                 )
                 Switch(
-                    checked = isDarkModeEnabled,
+                    checked = isLightModeEnabled,
                     onCheckedChange = { isChecked ->
 
                     }

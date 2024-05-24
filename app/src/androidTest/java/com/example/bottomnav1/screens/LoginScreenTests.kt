@@ -1,6 +1,5 @@
 package com.example.bottomnav1.screens
 
-import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
@@ -20,39 +19,37 @@ open class LoginScreenTests : ScreenTests(){
 
     @Before
     override fun setUp() {
-        emailTextField = hasText(rule.activity.getString(R.string.email))
-        passwordTextField = hasText(rule.activity.getString(R.string.password))
-        submitButton = hasText(rule.activity.getString(R.string.submit_button)) and hasClickAction()
-        forgotPasswordButton = hasText( rule.activity.getString(R.string.forgot_password)) and hasClickAction()
-        signUpButton = hasText(rule.activity.getString(R.string.sign_up_button)) and hasClickAction()
+        super.setUp()
     }
 
     @Test
     fun `check state of the login in page`() {
-        val pageTitle = hasText(rule.activity.getString(R.string.login_screen_title))
-        rule.onNode(pageTitle).assertExists()
+        rule.onNode(appLogo).assertExists()
+        rule.onNode(loginTitle).assertExists()
         rule.onNode(submitButton).assertExists()
         rule.onNode(forgotPasswordButton).assertExists()
         rule.onNode(signUpButton).assertExists()
+
         rule.onNode(emailTextField).assertExists()
         rule.onNode(passwordTextField).assertExists()
+
         rule.onNode(bottomNavBar).assertDoesNotExist()
 
+    }
+
+    @Test
+    fun `log in`() {
+        rule.onNode(emailTextField).printToLog("UI_TEST");
+        rule.onNode(emailTextField).performTextInput(VALID_EMAIL)
+        rule.onNode(passwordTextField).performTextInput(VALID_PASSWORD)
+        rule.onNode(submitButton).performClick()
+        Thread.sleep(1000)
     }
 
     @Test
     fun `check if user can sign in and proceed to the home page`(){
         `sign in`()
         rule.onNode(bottomNavBar).assertExists()
-    }
-
-    @Test
-    fun `sign in`() {
-        rule.onNode(emailTextField).printToLog("UI_TEST");
-        rule.onNode(emailTextField).performTextInput(VALID_EMAIL)
-        rule.onNode(passwordTextField).performTextInput(VALID_PASSWORD)
-        rule.onNode(submitButton).performClick()
-        Thread.sleep(1000)
     }
 
 

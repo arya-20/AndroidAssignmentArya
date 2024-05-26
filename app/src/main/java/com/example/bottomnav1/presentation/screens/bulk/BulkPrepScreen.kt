@@ -1,6 +1,7 @@
 package com.example.bottomnav1.presentation.screens.bulk
 // BulkPrepScreen.kt
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,8 @@ import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -61,13 +64,14 @@ fun BulkPrepScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colors.background),
-        topBar = {
+    topBar = {
             Column {
                 Text(
                     text = "Bulk Preparation Recipes",
                     style = MaterialTheme.typography.h4,
-                    modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 8.dp)
-                )
+                    modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 8.dp),
+                    )
+
                 Text(
                     text = "Preparing meals in bulk can save you time and money. You can add your bulk prep recipes below using the add button.",
                     style = MaterialTheme.typography.body2,
@@ -104,11 +108,16 @@ fun BulkPrepScreen(
 
             val recipeState = recipeState.data ?: emptyList()
             if (recipeState.isNotEmpty()) {
+                Log.d("RecipeState", "RecipeState is not empty. Size: ${recipeState.size}")
+
                 RecipeSection(
                     "",
                     recipeState
                 ) { recipeId ->
-                    onClickToRecipeDetailScreen(recipeId)
+                    val trimmedRecipeId = recipeId.trim()
+                    Log.d("RecipeId", "Trimmed RecipeId: $trimmedRecipeId")
+
+                    onClickToRecipeDetailScreen(trimmedRecipeId)
                 }
             }
         }
@@ -118,8 +127,8 @@ fun BulkPrepScreen(
 @Composable
 fun RecipeSection(title: String, recipe: List<Recipe>, onClick: (String) -> Unit) {
     val isSelected = remember{ mutableStateOf(false) }
-
     val backgroundColor = if (isSelected.value) White else Gray
+
     Surface(
         color = White,
         modifier = Modifier
@@ -146,8 +155,7 @@ fun RecipeSection(title: String, recipe: List<Recipe>, onClick: (String) -> Unit
                         onClick = { isSelected.value = !isSelected.value }
                     )
             ) {
-                LazyColumn(modifier = Modifier.fillMaxWidth())
-                {
+                LazyColumn(modifier = Modifier.fillMaxWidth()) {
                     items(recipe) { recipe ->
                         RecipeItem(
                             recipe,
@@ -167,6 +175,8 @@ fun RecipeSection(title: String, recipe: List<Recipe>, onClick: (String) -> Unit
              .padding(vertical = 8.dp, horizontal = 18.dp)
              .clip(RoundedCornerShape(24.dp))
              .clickable(onClick = onClick)
+             .semantics { contentDescription = "RecipeItem" }
+
      ) {
          Column(
              modifier = Modifier.padding(16.dp)) {

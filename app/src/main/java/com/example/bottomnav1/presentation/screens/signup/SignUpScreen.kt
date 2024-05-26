@@ -12,6 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -48,6 +50,9 @@ fun SignUpScreen(vm: SignUpViewModel = viewModel(factory = SignUpViewModel.Facto
 
 
                 CustomTextField(
+                    modifier = Modifier.semantics {
+                        contentDescription = "Email"
+                    },
                     stringResource(R.string.email),
                     text = vm.email,
                     onValueChange = { vm.email = it },
@@ -57,6 +62,9 @@ fun SignUpScreen(vm: SignUpViewModel = viewModel(factory = SignUpViewModel.Facto
 
                     )
                 CustomTextField(
+                    modifier = Modifier.semantics {
+                        contentDescription = "Password"
+                    },
                     stringResource(R.string.password),
                     text = vm.password,
                     onValueChange = { vm.password = it },

@@ -16,9 +16,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.example.bottomnav1.R
 import com.example.bottomnav1.presentation.components.BottomNavBar
 import com.example.bottomnav1.presentation.screens.settings.SettingsViewModel
+import com.example.bottomnav1.R
+
 
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

@@ -4,6 +4,7 @@ import HomeScreen
 import SettingsScreen
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -16,6 +17,7 @@ import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.presentation.screens.add.AddScreen
 import com.example.bottomnav1.presentation.screens.bulk.BulkPrepScreen
 import com.example.bottomnav1.presentation.screens.edit.EditScreen
+import com.example.bottomnav1.presentation.screens.edit.EditViewModel
 import com.example.bottomnav1.presentation.screens.login.LoginScreen
 import com.example.bottomnav1.presentation.screens.recipe.RecipeDetailViewModel
 import com.example.bottomnav1.presentation.screens.recipe.RecipeDetailsScreen
@@ -32,7 +34,7 @@ sealed class NavScreen(var icon:Int, var route:String){
     data object Start: NavScreen(R.drawable.home, "Start")
     data object Home: NavScreen(R.drawable.home, "Home")
     data object Add: NavScreen(R.drawable.add, "Add")
-    data object Edit: NavScreen(R.drawable.add, "Edit")//drawable is not relevant
+    data object Edit: NavScreen(R.drawable.edit, "Edit")
     data object Exit: NavScreen(R.drawable.logout, "Logout")
     data object Login: NavScreen(R.drawable.home, "Login")
     data object SignUp: NavScreen(R.drawable.home, "SignUp")
@@ -116,7 +118,7 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         composable("${NavScreen.BulkPrepView.route}/{recipeId}") { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getString("recipeId")
             recipeId?.let {
-                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory)
+                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory(recipeId))
                 vm.name?.let {
                     RecipeDetailsScreen(
                         recipeName = it,
@@ -124,7 +126,9 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                         recipe = Recipe(recipeId),
                         onClickToEditRecipe = { recipeId ->
                             navController.navigate("${NavScreen.Edit.route}/${recipeId.trim()}")
-                        }
+                        },
+                        recipeId = it,
+                        vm = vm
                     )
                 } ?: run {
                     Text(text = "Invalid Recipe")
@@ -150,7 +154,7 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         composable("${NavScreen.VeganView.route}/{recipeId}") { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getString("recipeId")
             recipeId?.let {
-                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory)
+                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory(recipeId))
                 vm.name?.let {
                     RecipeDetailsScreen(
                         recipeName = it,
@@ -158,7 +162,9 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                         recipe = Recipe(),
                         onClickToEditRecipe = { recipeId ->
                             navController.navigate("${NavScreen.VeganEdit.route}/$recipeId")
-                        }
+                        },
+                        recipeId = it,
+                        vm = vm
                     )
                 } ?: run {
                     Text(text = "Invalid Recipe")
@@ -184,7 +190,7 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         composable("${NavScreen.WeightGainView.route}/{recipeId}") { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getString("recipeId")
             recipeId?.let {
-                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory)
+                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory(recipeId))
                 vm.name?.let {
                     RecipeDetailsScreen(
                         recipeName = it,
@@ -192,7 +198,9 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                         recipe = Recipe(),
                         onClickToEditRecipe = { recipeId ->
                             navController.navigate("${NavScreen.WeightGainEdit.route}/$recipeId")
-                        }
+                        },
+                        recipeId = it,
+                        vm = vm
                     )
                 } ?: run {
                     Text(text = "Invalid Recipe")
@@ -217,7 +225,7 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         composable("${NavScreen.WeightLossView.route}/{recipeId}") { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getString("recipeId")
             recipeId?.let {
-                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory)
+                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory(recipeId))
                 vm.name?.let {
                     RecipeDetailsScreen(
                         recipeName = it,
@@ -225,7 +233,9 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                         recipe = Recipe(),
                         onClickToEditRecipe = { recipeId ->
                             navController.navigate("${NavScreen.WeightLossEdit.route}/$recipeId")
-                        }
+                        },
+                        recipeId = it,
+                        vm = vm
                     )
                 } ?: run {
                     Text(text = "Invalid Recipe")
@@ -251,16 +261,38 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                     AddScreen(navController = navController,
                         onClickToHome = { navController.popBackStack() })
                 }
-                composable(NavScreen.Edit.route) {
-                    EditScreen(navController = navController,
-                        selectedRecipe = selectedRecipe!!,
-                        onClickToHome = {
-                            if (selectedRecipe != null) {
-                                navController.navigate("home")
-                            }
+//                composable(NavScreen.Edit.route) {
+//                    EditScreen(navController = navController,
+//                        selectedRecipe = selectedRecipe!!,
+//                        onClickToHome = {
+//                            if (selectedRecipe != null) {
+//                                navController.navigate("home")
+//                            }
+//                        }
+//                    )
+//                }
+                composable("${NavScreen.Edit.route}/{recipeId}") { backStackEntry ->
+                    val recipeId = backStackEntry.arguments?.getString("recipeId")
+                    recipeId?.let {
+                        val vm: EditViewModel = viewModel(factory = EditViewModel.Factory)
+
+                        LaunchedEffect(recipeId) {
+                            vm.loadRecipeById(recipeId)
                         }
-                    )
+                        vm.selectedRecipe.value?.let { selectedRecipe ->
+                            EditScreen(
+                                vm = vm,
+                                navController = navController,
+                                selectedRecipe = selectedRecipe,
+                                onClickToHome = {
+                                    navController.popBackStack(NavScreen.BulkPrep.route, false)
+                               })
+                         } ?: run {
+                      Text(text = "Invalid Recipe")
+                         }
+                    }
                 }
+
                 composable(NavScreen.Settings.route) {
                     SettingsScreen(
                         navController = navController,

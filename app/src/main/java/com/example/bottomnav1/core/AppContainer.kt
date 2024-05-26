@@ -32,7 +32,7 @@ class AppDataContainer : AppContainer {
         }
     }
 
-    override lateinit var  contactRepository: ContactRepository
+    override lateinit var contactRepository: ContactRepository
     override lateinit var recipeRepository: RecipeRepository
     override lateinit var authRepository: AuthRepo
 

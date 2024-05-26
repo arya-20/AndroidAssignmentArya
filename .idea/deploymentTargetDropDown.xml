@@ -2,7 +2,10 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="CustomTextFieldTests">
+      <entry key="BulkScreenTests">
+        <State />
+      </entry>
+      <entry key="CustomButtonTests">
         <State />
       </entry>
       <entry key="HomeScreenTests">
@@ -11,10 +14,7 @@
       <entry key="LoginScreenTests">
         <State />
       </entry>
-      <entry key="SignUpScreenTests">
-        <State />
-      </entry>
-      <entry key="StartScreenTests">
+      <entry key="Tests in 'com.example.bottomnav1.screens'">
         <State />
       </entry>
       <entry key="Unnamed">

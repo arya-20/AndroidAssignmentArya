@@ -11,6 +11,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -18,6 +21,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.bottomnav1.R
 import com.example.bottomnav1.presentation.components.BottomNavBar
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -58,14 +62,15 @@ fun TrackScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             TrackEntryField(
-                label = "Current Weight",
+                label = stringResource(id = R.string.current_weight),
                 text = currentWeight,
                 onValueChange = { currentWeight = it },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+
             )
 
             TrackEntryField(
-                label = "Target Weight",
+                label = stringResource(id = R.string.target_weight),
                 text = targetWeight,
                 onValueChange = { targetWeight = it },
                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
@@ -86,6 +91,8 @@ fun TrackScreen(
                 )
                 Switch(
                     checked = isKg,
+                    modifier = Modifier.semantics {
+                        contentDescription = "weightUnit"},
                     onCheckedChange = { isKg = it },
                     colors = SwitchDefaults.colors(
                         checkedThumbColor = Color.White,

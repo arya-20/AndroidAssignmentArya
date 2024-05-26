@@ -29,16 +29,17 @@ import com.example.bottomnav1.presentation.theme.DarkBlue
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun RecipeDetailsScreen(
-    navController: NavHostController,
-    recipeName: String,
     recipe: Recipe,
+    recipeName: String,
+    recipeId: String,
     onClickToEditRecipe: (String) -> Unit,
-    vm:  RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory),
-) {
+    vm:  RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory(recipeId)),
+    navController: NavHostController
 
-
+    ) {
     val backStackEntry = navController.currentBackStackEntry
     val recipeId = backStackEntry?.arguments?.getString("recipeId")?.trim() ?: return
+
 
     Scaffold(
         topBar = {
@@ -51,7 +52,7 @@ fun RecipeDetailsScreen(
                             contentDescription = "Back",
                             modifier = Modifier
                                 .padding(bottom = 8.dp)
-                                .size(70.dp))
+                                .size(50.dp))
 
                     }
                 }
@@ -103,28 +104,28 @@ fun RecipeDetailsScreen(
                 text = "Name: ${vm.name}",
                 textAlign = TextAlign.Start,
                 fontSize = 18.sp,
-                color = Color.White,
+                color = Color.Black,
                 modifier = Modifier.padding(8.dp)
             )
             Text(
                 text = "Category: ${vm.category}",
                 textAlign = TextAlign.Start,
                 fontSize = 18.sp,
-                color = Color.White,
+                color = Color.Black,
                 modifier = Modifier.padding(8.dp)
             )
             Text(
                 text = "Ingredients: ${vm.ingredients}",
                 textAlign = TextAlign.Start,
                 fontSize = 18.sp,
-                color = Color.White,
+                color = Color.Black,
                 modifier = Modifier.padding(8.dp)
             )
             Text(
                 text = "Instructions: ${vm.instructions}",
                 textAlign = TextAlign.Start,
                 fontSize = 18.sp,
-                color = Color.White,
+                color = Color.Black,
                 modifier = Modifier.padding(8.dp)
             )
         }

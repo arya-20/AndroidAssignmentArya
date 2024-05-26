@@ -4,7 +4,6 @@ import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.hasAnySibling
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasContentDescription
-import androidx.compose.ui.test.hasNoClickAction
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
@@ -24,7 +23,6 @@ open abstract class ScreenTests {
     val bottomNavBar = hasContentDescription("bottom_nav")
     val exitNavBarItem = hasText(NavScreen.Exit.route)
     val homeNavBarItem = hasText(NavScreen.Home.route) and hasAnySibling(exitNavBarItem)
-    val addNavBarItem = hasText(NavScreen.Add.route) and hasAnySibling(exitNavBarItem)
     val settingsNavBarItem = hasText(NavScreen.Settings.route) and hasAnySibling(exitNavBarItem)
 
     //Data for add screen
@@ -45,8 +43,19 @@ open abstract class ScreenTests {
     lateinit var startButton : SemanticsMatcher
 
     lateinit var recipeTextField: SemanticsMatcher
-    lateinit var addScreenText : SemanticsMatcher
+    lateinit var bulkScreenText : SemanticsMatcher
+    lateinit var recipeDetailText : SemanticsMatcher
+
+
     lateinit var addButton : SemanticsMatcher
+    lateinit var editButton : SemanticsMatcher
+    lateinit var trackButton : SemanticsMatcher
+    lateinit var unitToggle : SemanticsMatcher
+
+    lateinit var currentWeightTextField : SemanticsMatcher
+    lateinit var targetWeightTextField : SemanticsMatcher
+
+
 
     //For home screen
     val listItem = hasText("$EMAIL $PASSWORD $RECIPE")
@@ -81,13 +90,17 @@ open abstract class ScreenTests {
         signUpButton = hasContentDescription(rule.activity.getString(R.string.sign_up_button) + BUTTON_POSTFIX)
         backButton = hasContentDescription(rule.activity.getString(R.string.back_button) + BUTTON_POSTFIX)
         deleteButton = hasContentDescription(rule.activity.getString(R.string.delete) + BUTTON_POSTFIX)
-        addButton = hasContentDescription(rule.activity.getString(R.string.add) + " button")
+        addButton = hasContentDescription(rule.activity.getString(R.string.add) + BUTTON_POSTFIX)
+        trackButton = hasContentDescription(rule.activity.getString(R.string.track))
+        unitToggle = hasContentDescription("weightUnit")
 
         bulkPrepScreenButton = hasContentDescription("Bulk Prep")
         weightLossScreenButton = hasContentDescription("Weight Loss")
         weightGainScreenButton = hasContentDescription("Weight Gain")
         veganScreenButton = hasContentDescription("Vegan")
-        trackScreenButton = hasContentDescription("Vegan")
+        trackScreenButton = hasContentDescription("Track")
+
+//        recipeItem = hasContentDescription("RecipeItem")
 
 
         startScreenTitle = hasText(rule.activity.getString(R.string.start_title))
@@ -99,13 +112,16 @@ open abstract class ScreenTests {
         passwordTextField = hasContentDescription(rule.activity.getString(R.string.password))
         recipeTextField = hasContentDescription(rule.activity.getString(R.string.recipe_hint))
 
+        currentWeightTextField = hasContentDescription(rule.activity.getString(R.string.current_weight))
+        targetWeightTextField = hasContentDescription(rule.activity.getString(R.string.target_weight))
+
         homeScreenText = hasText(rule.activity.getString(R.string.home))
-        addScreenText = hasText(rule.activity.getString(R.string.add)) and hasNoClickAction()
         editScreenText = hasText(rule.activity.getString(R.string.edit))
+
     }
 
     //Use for valid and invalid sign ins - use default values for generic log in
-    fun `sign in`(email:String = "testuser@gmail.com", password: String = "password") {
+    fun `log in`(email:String = "testuser@gmail.com", password: String = "password") {
         rule.onNode(emailTextField).printToLog("UI_TEST");
         rule.onNode(emailTextField).performTextInput(email)
         rule.onNode(passwordTextField).performTextInput(password)

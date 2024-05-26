@@ -15,7 +15,7 @@ class HomeScreenTests : ScreenTests(){
 
     @Test
     fun `check default state of the home screen`() {
-        `sign in`()
+        `log in`()
         rule.onNode(homeScreenText).assertExists()
         rule.onNode(bottomNavBar).assertExists()
         rule.onNode(settingsNavBarItem).assertExists()
@@ -31,47 +31,47 @@ class HomeScreenTests : ScreenTests(){
 
     @Test
     fun `go to the settings screen`() {
-        `sign in`()
+        `log in`()
         rule.onNode(settingsNavBarItem).performClick()
     }
 
     @Test
     fun `logout`(){
-        `sign in`()
+        `log in`()
         rule.onNode(exitNavBarItem).performClick()
     }
 
     @Test
     fun `go to bulk screen`(){
-        `sign in`()
+        `log in`()
         rule.onNode(bulkPrepScreenButton).performClick()
 
     }
 
     @Test
     fun `go to weight loss screen`(){
-        `sign in`()
+        `log in`()
         rule.onNode(weightLossScreenButton).performClick()
 
     }
 
     @Test
     fun `go to weight gain screen`(){
-        `sign in`()
+        `log in`()
         rule.onNode(weightGainScreenButton).performClick()
 
     }
 
     @Test
     fun `go to vegan screen`(){
-        `sign in`()
+        `log in`()
         rule.onNode(veganScreenButton).performClick()
 
     }
 
     @Test
     fun `go to track screen`(){
-        `sign in`()
+        `log in`()
         rule.onNode(trackScreenButton).performClick()
 
     }

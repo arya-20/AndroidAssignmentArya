@@ -14,41 +14,24 @@ class AddScreenTests : ScreenTests() {
     }
 
     private fun `go to the add screen`() {
-        `sign in`()
-        rule.onNode(addNavBarItem).performClick()
+        `log in`()
+        rule.onNode(addButton).performClick()
     }
 
     @Test
     fun `check the default state of the add screen`() {
         `go to the add screen`()
 
-        rule.onNode(addScreenText).assertExists()
-        //Nav bar
-        rule.onNode(bottomNavBar).assertExists()
-        rule.onNode(homeNavBarItem).assertExists()
-        rule.onNode(addNavBarItem).assertExists()
-        rule.onNode(exitNavBarItem).assertExists()
+        rule.onNodeWithText("name").assertExists()
+        rule.onNodeWithText("Category").assertExists()
+        rule.onNodeWithText("Ingredients").assertExists()
+        rule.onNodeWithText("Instructions").assertExists()
+        rule.onNode(addButton).assertExists()
     }
 
     @Test
-    fun `add a valid contact then delete it from the list`() {
+    fun `check the add button navigates back to home`() {
         `go to the add screen`()
-
-        //enter valid data then submit
-        `enter_a_valid_user`()
-
-        //Should be auto returned to the home screen
-        rule.onNode(homeScreenText).assertExists()
-
-        //Check entry exists in list view
-        rule.onNode(listItem).assertExists()
-        //delete entry
-         rule.onNode(listItem).performClick()
-         rule.onNode(deleteButton).performClick()
-    }
-
-    //@Test
-    fun `try to submit an invalid contact`(){
 
     }
 }

@@ -20,6 +20,7 @@ import com.example.bottomnav1.presentation.theme.DarkBlue
 
 @Composable
 fun CustomTextField(
+    modifier: Modifier,
     hintText: String,
     text: String,
     onValueChange: (String) -> Unit,

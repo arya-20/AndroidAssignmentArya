@@ -48,14 +48,16 @@ open class LoginScreenTests : ScreenTests(){
 
     @Test
     fun `check if user can sign in and proceed to the home page`(){
-        `sign in`()
+        `log in`()
+        val pageTitle = hasText(rule.activity.getString(R.string.home))
+        rule.onNode(pageTitle).assertExists()
         rule.onNode(bottomNavBar).assertExists()
     }
 
 
     @Test
     fun `attempt sign in with invalid details`(){
-        `sign in`(email = "invalid email",password="invalid password")
+        `log in`(email = "invalid email",password="invalid password")
         `check state of the login in page`()
     }
 

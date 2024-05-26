@@ -10,9 +10,11 @@ import com.example.bottomnav1.data.recipe1.RecipeRepository
 import kotlinx.coroutines.launch
 
 class RecipeDetailViewModel(
-    private  val recipeRepo : RecipeRepository
+
+    private  val recipeRepo : RecipeRepository,
+    private val recipeId: String,
+
 ) : ViewModel() {
-    private val recipeId: String = ""
     var name: String = ""
     var category: String = ""
     var ingredients: String = ""
@@ -25,29 +27,42 @@ class RecipeDetailViewModel(
     }
 
     private suspend fun fetchRecipeDetails() {
-        val trimmedRecipeId = recipeId?.trim()
-        if (trimmedRecipeId.isNullOrEmpty()) return
+        val trimmedRecipeId = recipeId.trim()
+        if (trimmedRecipeId.isEmpty()) {
+            return
+        }
 
-        val recipe = recipeRepo.getRecipeById(trimmedRecipeId) ?: return
-
-        name = recipe.name ?: ""
-        category = recipe.category?.name ?: ""
-        ingredients = recipe.ingredients ?: ""
-        instructions = recipe.instructions ?: ""
-    }
-
-    fun deleteRecipe() {
-        viewModelScope.launch {
-            recipeRepo.delete(recipe!!)
-            recipe = null
+        val fetchedRecipe = recipeRepo.getRecipeById(trimmedRecipeId)
+        if (fetchedRecipe != null) {
+            recipe = fetchedRecipe
+            name = fetchedRecipe.name ?: ""
+            category = fetchedRecipe.category?.name ?: ""
+            ingredients = fetchedRecipe.ingredients ?: ""
+            instructions = fetchedRecipe.instructions ?: ""
         }
     }
 
 
+
+
+
+    fun deleteRecipe() {
+        viewModelScope.launch {
+            val recipeToDelete = recipe
+            if (recipeToDelete != null) {
+                recipeRepo.delete(recipeToDelete)
+                    .addOnSuccessListener {
+                        recipe = null
+                    }
+            }
+        }
+    }
+
     companion object {
-        val Factory: ViewModelProvider.Factory = viewModelFactory {
+        fun Factory(recipeId: String): ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 RecipeDetailViewModel(
+                    recipeId = recipeId,
                     recipeRepo = ContactApplication.container.recipeRepository
                 )
             }

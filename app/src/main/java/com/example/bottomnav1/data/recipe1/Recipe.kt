@@ -9,11 +9,11 @@ enum class Category{
 }
 data class Recipe(
 
+    var id:String? =null,
     var name: String? = null,
     var category: Category? =null,
     var ingredients: String? = null,
     var instructions: String? = null
 ) {
-    var id:String? =null //UUID
     override fun toString(): String = "$name $category $ingredients $instructions"
 }

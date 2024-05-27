@@ -13,7 +13,9 @@ class BulkScreenTests : ScreenTests() {
         super.setUp()
     }
 
-    private fun `go to the bulk screen`() {
+
+     @Test
+     fun `go to the bulk screen`() {
         `log in`()
         rule.onNode(bulkPrepScreenButton).performClick()
     }

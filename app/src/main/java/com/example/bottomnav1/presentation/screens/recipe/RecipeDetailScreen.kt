@@ -23,6 +23,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.bottomnav1.R
 import com.example.bottomnav1.data.recipe1.Recipe
+import com.example.bottomnav1.presentation.navigation.NavScreen
 import com.example.bottomnav1.presentation.theme.DarkBlue
 
 
@@ -33,7 +34,7 @@ fun RecipeDetailsScreen(
     recipeName: String,
     recipeId: String,
     onClickToEditRecipe: (String) -> Unit,
-    vm:  RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory(recipeId)),
+    vm:  RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory(recipeId.trim())),
     navController: NavHostController
 
     ) {
@@ -63,7 +64,7 @@ fun RecipeDetailsScreen(
         floatingActionButton = {
             Column {
                 FloatingActionButton(
-                    onClick = { onClickToEditRecipe(recipeId) },
+                    onClick = { navController.navigate("${NavScreen.Edit.route}/${recipeId}") },
                     backgroundColor = DarkBlue,
                     modifier = Modifier.padding(8.dp)
                 ) {
@@ -75,7 +76,7 @@ fun RecipeDetailsScreen(
                 }
                 FloatingActionButton(
                     onClick = {
-                        vm.deleteRecipe()
+                        vm.deleteRecipeFromCurrentUser(recipeId)
                         navController.popBackStack()
                     },
                     backgroundColor = Color.Red,

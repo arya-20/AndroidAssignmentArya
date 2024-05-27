@@ -12,14 +12,11 @@ import kotlinx.coroutines.tasks.await
 interface AuthRepo {
     val currentUser: FirebaseUser?
     suspend fun firebaseSignUpWithEmailAndPassword(email: String, password: String): Response<Boolean>
-
     suspend fun sendEmailVerification(): Response<Boolean>
-
     suspend fun firebaseSignInWithEmailAndPassword(email: String, password: String): Response<Boolean>
-
     suspend fun sendPasswordResetEmail(email: String): Response<Boolean>
-
     fun signOut()
+    suspend fun deleteUser()
 }
 
 class AuthRepository(private val auth: FirebaseAuth,
@@ -86,4 +83,13 @@ class AuthRepository(private val auth: FirebaseAuth,
     }
 
     override fun signOut() = auth.signOut()
+
+    override suspend fun deleteUser() {
+        try {
+            currentUser?.delete()?.await()
+        } catch (e: Exception) {
+            Log.e("AuthRepository", "Error deleting user", e)
+            throw e
+        }
+    }
 }

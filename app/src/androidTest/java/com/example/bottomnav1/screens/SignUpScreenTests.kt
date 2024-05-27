@@ -22,9 +22,8 @@ class SignUpScreenTests : ScreenTests() {
     @Test
     fun `check default state of the sign up screen`() {
         rule.onNode(signUpButton).performClick()
-        val pageTitle =
-            hasText(rule.activity.getString(R.string.sign_up_screen_title))
-        rule.onNode(startScreenTitle).assertExists()
+        val pageTitle = hasText(rule.activity.getString(R.string.sign_up_screen_title))
+        rule.onNode(pageTitle).assertExists()
         rule.onNode(bottomNavBar).assertDoesNotExist()
         rule.onNode(emailTextField).assertExists()
         rule.onNode(passwordTextField).assertExists()

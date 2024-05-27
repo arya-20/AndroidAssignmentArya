@@ -17,11 +17,12 @@ fun LogIn(
         is Response.Loading -> ProgressBar()
         is Response.Success -> {
 //            if(ContactApplication.container.isRunningTest ||
-//                vm.isEmailVerified)
+//                vm.isEmailVerified) {
                 LaunchedEffect(key1 = Unit) {
                     navigateToHomeScreen()
                 }
         }
+
         is Response.Failure -> signInResponse.apply {
             LaunchedEffect(e) {
                 showErrorMessage(e.message)

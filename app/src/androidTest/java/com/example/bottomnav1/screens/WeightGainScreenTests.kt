@@ -13,7 +13,8 @@ class WeightGainScreenTests : ScreenTests() {
         super.setUp()
     }
 
-    private fun `go to the weight gain screen`() {
+     @Test
+     fun `go to the weight gain screen`() {
         `log in`()
         rule.onNode(weightGainScreenButton).performClick()
     }

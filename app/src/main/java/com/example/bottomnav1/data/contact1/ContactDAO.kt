@@ -56,6 +56,7 @@ class ContactDAO(private val database: DatabaseReference) {
             null
         }
     }
+
     suspend fun updateContact(contact: Contact) {
         val currentUserAuthId = getCurrentUserAuthId()// Ensure contact ID is not null
         if (currentUserAuthId != null) {
@@ -65,7 +66,6 @@ class ContactDAO(private val database: DatabaseReference) {
                 // Handle update failure
             }
         } else {
-            // Handle case where user is not authenticated (optional)
         }
     }
 
@@ -79,37 +79,44 @@ class ContactDAO(private val database: DatabaseReference) {
         }
     }
 
-    suspend fun getContacts(contactUUID: String) : Flow<DatabaseResult<List<Contact?>>> = callbackFlow {
-        trySend(DatabaseResult.Loading)
-        database.child(contactUUID).keepSynced(true)
+    suspend fun getContacts(contactUUID: String): Flow<DatabaseResult<List<Contact?>>> =
+        callbackFlow {
+            trySend(DatabaseResult.Loading)
+            database.child(contactUUID).keepSynced(true)
 
-         val event = object : ValueEventListener {
-             override fun onDataChange(snapshot: DataSnapshot) {
-                 val contacts = ArrayList<Contact>()
-                 for (childSnapshot in snapshot.children) {
-                     val contact = childSnapshot.getValue(Contact::class.java)
-                     contact!!.id = childSnapshot.key.toString()
-                     contacts.add(contact)
-                 }
-                 trySend(DatabaseResult.Success(contacts))
-             }
+            val event = object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val contacts = ArrayList<Contact>()
+                    for (childSnapshot in snapshot.children) {
+                        val contact = childSnapshot.getValue(Contact::class.java)
+                        contact!!.id = childSnapshot.key.toString()
+                        contacts.add(contact)
+                    }
+                    trySend(DatabaseResult.Success(contacts))
+                }
 
-             override fun onCancelled(error: DatabaseError) {
-                 trySend(DatabaseResult.Error(Throwable(error.message)))
-             }
-         }
-        database.child(contactUUID).addValueEventListener(event)
-        awaitClose { close() }
-    }
+                override fun onCancelled(error: DatabaseError) {
+                    trySend(DatabaseResult.Error(Throwable(error.message)))
+                }
+            }
+            database.child(contactUUID).addValueEventListener(event)
+            awaitClose { close() }
+        }
 
     fun insert(newContact: Contact, userAuthUUID: String) {
         database.child(userAuthUUID).setValue(newContact)
     }
-    fun update(editContact: Contact, userAuthUUID: String) {
-        val contactId = editContact.id.toString() //retrieved for sub folder key
-        editContact.id = String() //Clear so not saved inside folder
-        database.child(userAuthUUID).child(contactId).setValue(editContact)
+
+    suspend fun update(editContact: Contact) {
+        val currentUserAuthId = getCurrentUserAuthId()
+        if (currentUserAuthId != null) {
+            try {
+                database.child(currentUserAuthId).setValue(editContact).await()
+            } catch (e: Exception) {}
+        } else {
+        }
     }
+
 
     fun delete(contact: Contact) = database.child(contact.id.toString()).removeValue()
 }

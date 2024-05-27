@@ -4,7 +4,6 @@ import HomeScreen
 import SettingsScreen
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -12,7 +11,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.bottomnav1.R
 import com.example.bottomnav1.core.ContactApplication
+import com.example.bottomnav1.data.auth.AuthRepository
 import com.example.bottomnav1.data.contact1.Contact
+import com.example.bottomnav1.data.contact1.ContactDAO
+import com.example.bottomnav1.data.contact1.ContactRepository
 import com.example.bottomnav1.data.recipe1.Recipe
 import com.example.bottomnav1.presentation.screens.add.AddScreen
 import com.example.bottomnav1.presentation.screens.bulk.BulkPrepScreen
@@ -27,6 +29,8 @@ import com.example.bottomnav1.presentation.screens.track.TrackScreen
 import com.example.bottomnav1.presentation.screens.vegan.VeganScreen
 import com.example.bottomnav1.presentation.screens.weightGain.WeightGainScreen
 import com.example.bottomnav1.presentation.screens.weightLoss.WeightLossScreen
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import kotlin.system.exitProcess
 
 
@@ -59,10 +63,18 @@ sealed class NavScreen(var icon:Int, var route:String){
 
 @Composable
 fun NavigationGraph(navController: NavHostController = rememberNavController()) {
-    var selectedRecipe: Recipe? =null
+    var selectedRecipe: Recipe? = null
     var selectedContact: Contact? = null
-    NavHost(navController,
-        startDestination = NavScreen.Start.route) {
+    val database = FirebaseDatabase.getInstance().reference
+    val contactDAO = ContactDAO(database)
+    val contactRepo = ContactRepository(contactDAO)
+    val authRepo = AuthRepository(auth = FirebaseAuth.getInstance(), contactRepo = contactRepo)
+
+
+    NavHost(
+        navController,
+        startDestination = NavScreen.Start.route
+    ) {
 
         composable(NavScreen.Start.route) {
             StartScreen(navController = navController) {
@@ -118,23 +130,21 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
         composable("${NavScreen.BulkPrepView.route}/{recipeId}") { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getString("recipeId")
             recipeId?.let {
-                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory(recipeId))
-                vm.name?.let {
-                    RecipeDetailsScreen(
-                        recipeName = it,
-                        navController = navController,
-                        recipe = Recipe(recipeId),
-                        onClickToEditRecipe = { recipeId ->
-                            navController.navigate("${NavScreen.Edit.route}/${recipeId.trim()}")
-                        },
-                        recipeId = it,
-                        vm = vm
-                    )
-                } ?: run {
-                    Text(text = "Invalid Recipe")
-                }
+                val vm: RecipeDetailViewModel =
+                    viewModel(factory = RecipeDetailViewModel.Factory(recipeId))
+                RecipeDetailsScreen(
+                    recipeName = it,
+                    navController = navController,
+                    recipe = Recipe(recipeId),
+                    onClickToEditRecipe = { recipeId ->
+                        navController.navigate("${NavScreen.Edit.route}/${recipeId.trim()}")
+                    },
+                    recipeId = it,
+                    vm = vm
+                )
             }
         }
+
 
 
         composable(NavScreen.Vegan.route) {
@@ -274,29 +284,22 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 composable("${NavScreen.Edit.route}/{recipeId}") { backStackEntry ->
                     val recipeId = backStackEntry.arguments?.getString("recipeId")
                     recipeId?.let {
-                        val vm: EditViewModel = viewModel(factory = EditViewModel.Factory)
-
-                        LaunchedEffect(recipeId) {
-                            vm.loadRecipeById(recipeId)
-                        }
-                        vm.selectedRecipe.value?.let { selectedRecipe ->
+                        val vm: EditViewModel = viewModel(factory = EditViewModel.Factory(recipeId))
                             EditScreen(
+                                recipeId = it,
                                 vm = vm,
                                 navController = navController,
-                                selectedRecipe = selectedRecipe,
                                 onClickToHome = {
                                     navController.popBackStack(NavScreen.BulkPrep.route, false)
                                })
-                         } ?: run {
-                      Text(text = "Invalid Recipe")
                          }
-                    }
                 }
 
+
+
                 composable(NavScreen.Settings.route) {
-                    SettingsScreen(
-                        navController = navController,
-                    )
+                    SettingsScreen(navController = navController, authRepo = authRepo)
+
                 }
 
                 composable(NavScreen.Exit.route) {

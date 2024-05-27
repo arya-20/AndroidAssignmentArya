@@ -13,7 +13,8 @@ class VeganScreenTests : ScreenTests() {
         super.setUp()
     }
 
-    private fun `go to the vegan screen`() {
+     @Test
+     fun `go to the vegan screen`() {
         `log in`()
         rule.onNode(veganScreenButton).performClick()
     }

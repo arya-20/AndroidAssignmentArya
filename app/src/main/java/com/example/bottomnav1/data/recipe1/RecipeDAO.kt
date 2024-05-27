@@ -26,10 +26,9 @@ class RecipeDAO(private var database: DatabaseReference) {
         database.child(recipeId).setValue(newRecipe)
     }
 
-    fun update(editRecipe: Recipe, userAuthUUID: String) {
-        val recipeId = editRecipe.id.toString()
-        editRecipe.id = String()
-        database.child(userAuthUUID).child(recipeId).setValue(editRecipe)
+    fun update(editRecipe: Recipe) {
+        val recipeId = editRecipe.id!!
+        database.child(recipeId).setValue(editRecipe)
     }
 
     fun delete(recipe: Recipe): Task<Void> {

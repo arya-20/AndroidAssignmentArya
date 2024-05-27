@@ -85,9 +85,9 @@ open abstract class ScreenTests {
     open fun setUp() {
         val BUTTON_POSTFIX = " button"
         appLogo = hasContentDescription("Logo")
-        forgotPasswordButton = hasContentDescription( rule.activity.getString(R.string.forgot_password) + BUTTON_POSTFIX)
-        submitButton = hasContentDescription(rule.activity.getString(R.string.submit_button) + BUTTON_POSTFIX)
-        signUpButton = hasContentDescription(rule.activity.getString(R.string.sign_up_button) + BUTTON_POSTFIX)
+        forgotPasswordButton = hasContentDescription( rule.activity.getString(R.string.forgot_password) )
+        submitButton = hasContentDescription(rule.activity.getString(R.string.submit_button) )
+        signUpButton = hasContentDescription(rule.activity.getString(R.string.sign_up_button) ) //REMOVE THE BUTTON POSTFIXES
         backButton = hasContentDescription(rule.activity.getString(R.string.back_button) + BUTTON_POSTFIX)
         deleteButton = hasContentDescription(rule.activity.getString(R.string.delete) + BUTTON_POSTFIX)
         addButton = hasContentDescription(rule.activity.getString(R.string.add) + BUTTON_POSTFIX)

@@ -9,7 +9,7 @@ import java.util.UUID
 interface RecipeRepo {
     fun delete(recipe: Recipe): Task<Void>
     fun add(recipe: Recipe)
-    fun edit(recipe: Recipe, recipeUUID: String)
+    fun edit(recipe: Recipe)
     suspend fun getAll(recipeUUID: String): Flow<DatabaseResult<List<Recipe?>>>
     suspend fun getRecipeById(recipeId: String): Recipe?
 }
@@ -27,7 +27,7 @@ class RecipeRepository(private val recipeDAO: RecipeDAO) : RecipeRepo {
 
 
 
-    override fun edit(recipe: Recipe, recipeUUID: String) { recipeDAO.update(recipe, recipeUUID)}
+    override fun edit(recipe: Recipe) { recipeDAO.update(recipe)}
 
 
     override suspend fun getAll(recipeUUID: String): Flow<DatabaseResult<List<Recipe?>>> {

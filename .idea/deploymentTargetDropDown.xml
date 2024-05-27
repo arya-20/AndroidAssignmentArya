@@ -2,25 +2,25 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="BulkScreenTests">
+      <entry key="TestSuite">
         <State />
       </entry>
-      <entry key="CustomButtonTests">
-        <State />
-      </entry>
-      <entry key="HomeScreenTests">
-        <State />
-      </entry>
-      <entry key="LoginScreenTests">
-        <State />
-      </entry>
-      <entry key="Tests in 'com.example.bottomnav1.screens'">
+      <entry key="Tests in 'com.example.bottomnav1'">
         <State />
       </entry>
       <entry key="Unnamed">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="check the default state of the bulk screen()">
+        <State />
+      </entry>
+      <entry key="check the default state of the track screen()">
+        <State />
+      </entry>
+      <entry key="go to the details screen()">
         <State />
       </entry>
     </value>

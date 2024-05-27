@@ -12,16 +12,21 @@ fun LogIn(
     showErrorMessage: (errorMessage: String?) -> Unit,
     navigateToHomeScreen: () -> Unit
 ) {
-    when(val signInResponse = vm.signInResponse) {
+    when (val signInResponse = vm.signInResponse) {
         is Response.Startup -> Unit //Do nothing
         is Response.Loading -> ProgressBar()
         is Response.Success -> {
-//            if(ContactApplication.container.isRunningTest ||
-//                vm.isEmailVerified) {
+
+//            if (ContactApplication.container.isRunningTest ||       //COMMENT OUT WHEN NOT TESTING
+//                vm.isEmailVerified
+//            ) {
+
                 LaunchedEffect(key1 = Unit) {
                     navigateToHomeScreen()
                 }
-        }
+            }
+
+
 
         is Response.Failure -> signInResponse.apply {
             LaunchedEffect(e) {

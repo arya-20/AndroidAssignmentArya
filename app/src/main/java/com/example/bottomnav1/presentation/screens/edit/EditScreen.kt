@@ -47,7 +47,7 @@ fun EditScreen(
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = Color.White,
             )
             Column {
                 CustomTextField(

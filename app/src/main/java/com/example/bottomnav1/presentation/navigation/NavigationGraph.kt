@@ -2,7 +2,6 @@ package com.example.bottomnav1.presentation.navigation
 
 import HomeScreen
 import SettingsScreen
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -145,40 +144,31 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
             }
         }
 
-
-
         composable(NavScreen.Vegan.route) {
             VeganScreen(
                 navController = navController,
-                onClickToAddRecipe = {
-                    navController.navigate(NavScreen.AddRecipe.route)
-                },
                 onClickToRecipeDetailScreen = { recipeId ->
-                    navController.navigate("${NavScreen.VeganView.route}/$recipeId")
-                },
-                onIndexChange = {
-                    selectedRecipe = it
+                    navController.navigate("${NavScreen.VeganView.route}/${recipeId.trim()}")
                 }
-            )
+            ) {
+                navController.navigate(NavScreen.AddRecipe.route)
+            }
         }
         composable("${NavScreen.VeganView.route}/{recipeId}") { backStackEntry ->
             val recipeId = backStackEntry.arguments?.getString("recipeId")
             recipeId?.let {
-                val vm: RecipeDetailViewModel = viewModel(factory = RecipeDetailViewModel.Factory(recipeId))
-                vm.name?.let {
-                    RecipeDetailsScreen(
-                        recipeName = it,
-                        navController = navController,
-                        recipe = Recipe(),
-                        onClickToEditRecipe = { recipeId ->
-                            navController.navigate("${NavScreen.VeganEdit.route}/$recipeId")
-                        },
-                        recipeId = it,
-                        vm = vm
-                    )
-                } ?: run {
-                    Text(text = "Invalid Recipe")
-                }
+                val vm: RecipeDetailViewModel =
+                    viewModel(factory = RecipeDetailViewModel.Factory(recipeId))
+                RecipeDetailsScreen(
+                    recipeName = it,
+                    navController = navController,
+                    recipe = Recipe(recipeId),
+                    onClickToEditRecipe = { recipeId ->
+                        navController.navigate("${NavScreen.Edit.route}/${recipeId.trim()}")
+                    },
+                    recipeId = it,
+                    vm = vm
+                )
             }
         }
 
@@ -191,9 +181,6 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 },
                 onClickToRecipeDetailScreen = { recipeId ->
                     navController.navigate("${NavScreen.WeightGainView.route}/$recipeId")
-                },
-                onIndexChange = {
-                    selectedRecipe = it
                 }
             )
         }
@@ -212,8 +199,6 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                         recipeId = it,
                         vm = vm
                     )
-                } ?: run {
-                    Text(text = "Invalid Recipe")
                 }
             }
         }
@@ -226,9 +211,6 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                 },
                 onClickToRecipeDetailScreen = { recipeId ->
                     navController.navigate("${NavScreen.WeightLossView.route}/$recipeId")
-                },
-                onIndexChange = {
-                    selectedRecipe = it
                 }
             )
         }
@@ -247,8 +229,6 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                         recipeId = it,
                         vm = vm
                     )
-                } ?: run {
-                    Text(text = "Invalid Recipe")
                 }
             }
         }
@@ -271,16 +251,7 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                     AddScreen(navController = navController,
                         onClickToHome = { navController.popBackStack() })
                 }
-//                composable(NavScreen.Edit.route) {
-//                    EditScreen(navController = navController,
-//                        selectedRecipe = selectedRecipe!!,
-//                        onClickToHome = {
-//                            if (selectedRecipe != null) {
-//                                navController.navigate("home")
-//                            }
-//                        }
-//                    )
-//                }
+
                 composable("${NavScreen.Edit.route}/{recipeId}") { backStackEntry ->
                     val recipeId = backStackEntry.arguments?.getString("recipeId")
                     recipeId?.let {
@@ -290,7 +261,7 @@ fun NavigationGraph(navController: NavHostController = rememberNavController()) 
                                 vm = vm,
                                 navController = navController,
                                 onClickToHome = {
-                                    navController.popBackStack(NavScreen.BulkPrep.route, false)
+                                    navController.popBackStack(NavScreen.Home.route, false)
                                })
                          }
                 }

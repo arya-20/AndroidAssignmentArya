@@ -37,6 +37,7 @@
 
     <string name="login_screen_title">Login</string>
     <string name="email">Email</string>
+    <string name="emailField">Email Field</string>
     <string name="email_error_message">Incorrect Email.</string>
     <string name="password">Password</string>
     <string name="password_error_message">Incorrect Password</string>
@@ -53,6 +54,8 @@
     <!-- BulkPrep Screen -->
     <string name="bulk_prep">Bulk Prep</string>
     <string name="start_bulk_prep">Start Bulk Prep</string>
+    <string name="bulk_prep_text">Preparing meals in bulk can save you time and money. You can add your bulk prep recipes below using the add button.</string>
+
 
     <!-- track Screen -->
     <string name="track">Track</string>
@@ -64,14 +67,20 @@
     <!-- weight loss Screen -->
     <string name="weight_loss">Weight Loss</string>
     <string name="start_weight_loss">Start Weight Loss</string>
+    <string name="weight_loss_text">To lose weight, you need low carb, high protein meals. Minimize sugary or oily food. You can add your Weight Loss recipes below using the add button.</string>
+
 
     <!-- weight gain Screen -->
     <string name="weight_gain">Weight Gain</string>
     <string name="start_weight_gain">Start Weight Gain</string>
+    <string name="weight_gain_text">Ideal recipes to help increase weight include high carbs and protein. You can add your Weight Gain recipes below using the add button.</string>
+
 
     <!-- vegan Screen -->
-    <string name="vegan">Weight Gain</string>
-    <string name="start_vegan">Start Weight Gain</string>
+    <string name="vegan">Vegan</string>
+    <string name="start_vegan">Start Vegan</string>
+    <string name="vegan_screen_text">You can add your vegan recipes below using the add button.</string>
+
 
     <!-- settings Screen -->
     <string name="settings">Settings</string>

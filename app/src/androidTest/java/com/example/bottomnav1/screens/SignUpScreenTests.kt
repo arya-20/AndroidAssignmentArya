@@ -12,16 +12,22 @@ import org.junit.runners.MethodSorters
 @FixMethodOrder( MethodSorters.DEFAULT)
 class SignUpScreenTests : ScreenTests() {
 
-
     @Before
     override fun setUp() {
         super.setUp()
     }
 
+    @Test
+    fun `move to the signup page`(){
+        `move to login`()
+        rule.onNode(signUpButton).performClick()
+    }
+
 
     @Test
     fun `check default state of the sign up screen`() {
-        rule.onNode(signUpButton).performClick()
+        `move to the signup page`()
+
         val pageTitle = hasText(rule.activity.getString(R.string.sign_up_screen_title))
         rule.onNode(pageTitle).assertExists()
         rule.onNode(bottomNavBar).assertDoesNotExist()
@@ -33,17 +39,17 @@ class SignUpScreenTests : ScreenTests() {
 
     @Test
     fun `enter valid sign up details`(){
-        rule.onNode(signUpButton).performClick()
-        rule.onNode(emailTextField).performTextInput("test@gmail.com") //must be a valid email or firebase will put up an error via toast
+        `move to the signup page`()
+        rule.onNode(emailTextField).performTextInput("aryagurjar20@gmail.com")
         rule.onNode(passwordTextField).performTextInput("password")
         rule.onNode(submitButton).performClick()
     }
 
     @Test
     fun `enter invalid sign up details`(){
-        rule.onNode(signUpButton).performClick()
-        rule.onNode(emailTextField).performTextInput("inavlidexample@invalid")
-        rule.onNode(passwordTextField).performTextInput("password")
+        `move to the signup page`()
+        rule.onNode(emailTextField).performTextInput("skjhfkjdshfskj")
+        rule.onNode(passwordTextField).performTextInput("sdkjfhdskjhfk")
         rule.onNode(submitButton).performClick()
     }
 }

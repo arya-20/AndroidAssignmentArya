@@ -18,8 +18,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,7 +36,7 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                 navigateToHomeScreen: () -> Unit) {
         val context = LocalContext.current
         val message: String by vm.message.observeAsState(String())
-        if (message.length > 0) { //Only changes when vm message is updated
+        if (message.length > 0) {
             showMessage(context, vm.message.value)
         }
 
@@ -56,7 +54,7 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.logo),
-                    contentDescription = "logo",
+                    contentDescription = "Logo",
                     modifier = Modifier
                         .padding(bottom = 8.dp)
                         .size(150.dp)
@@ -68,9 +66,7 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                     fontWeight = FontWeight.Bold
                 )
                 CustomTextField(
-                    modifier = Modifier.semantics {
-                        contentDescription = context.getString(R.string.email)
-                    },
+                    modifier = Modifier,
                     hintText = stringResource(R.string.email),
                     text = vm.email,
                     onValueChange = { vm.email = it },
@@ -79,9 +75,7 @@ fun LoginScreen(vm: LoginViewModel = viewModel(factory = LoginViewModel.Factory)
                     isPasswordField = false
                 )
                 CustomTextField(
-                    modifier = Modifier.semantics {
-                        contentDescription = context.getString(R.string.password)
-                    },
+                    modifier = Modifier,
                     hintText = stringResource(R.string.password),
                     text = vm.password,
                     onValueChange = { vm.password = it },

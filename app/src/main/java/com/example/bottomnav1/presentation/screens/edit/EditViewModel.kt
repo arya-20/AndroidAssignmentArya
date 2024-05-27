@@ -21,9 +21,6 @@ class EditViewModel(
     private val recipeId: String
 ) : ViewModel() {
 
-//    private val _selectedRecipe = mutableStateOf<Recipe?>(null)
-//    val selectedRecipe: State<Recipe?> get() = _selectedRecipe
-
     var name by mutableStateOf("")
     var category by mutableStateOf<Category?>(null)
     var ingredients by mutableStateOf("")

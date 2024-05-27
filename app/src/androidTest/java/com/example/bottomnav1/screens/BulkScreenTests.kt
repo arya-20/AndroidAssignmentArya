@@ -13,7 +13,6 @@ class BulkScreenTests : ScreenTests() {
         super.setUp()
     }
 
-
      @Test
      fun `go to the bulk screen`() {
         `log in`()
@@ -24,9 +23,11 @@ class BulkScreenTests : ScreenTests() {
     fun `check the default state of the bulk screen`() {
         `go to the bulk screen`()
 
-        rule.onNodeWithText("Bulk Preparation Recipes").assertExists()
+        val pageTitle = hasText("Bulk Preparation Recipes")
+        rule.onNode(pageTitle).assertExists()
+        rule.onNode(bulkScreenText)
+//        rule.onNode(recipeItem).assertExists()
         rule.onNode(addButton).assertExists()
-        //Nav bar
         rule.onNode(bottomNavBar).assertExists()
         rule.onNode(homeNavBarItem).assertExists()
         rule.onNode(settingsNavBarItem).assertExists()
@@ -35,18 +36,19 @@ class BulkScreenTests : ScreenTests() {
 
 
     @Test
-    fun `select a recipe and navigate to the recipe detail screen`() {
+    fun `go to the add screen`() {
         `go to the bulk screen`()
-
-        rule.onAllNodesWithContentDescription("RecipeItem")
-        rule.onNode(recipeDetailText).assertExists()
+        rule.onNode(addButton).performClick()
+        val pageTitle = hasText("Add ")
+        rule.onNode(pageTitle).assertExists()
     }
 
     @Test
-    fun `check if the list of recipes is displayed`() {
+    fun `select a recipe and navigate to the recipe detail screen`() {
         `go to the bulk screen`()
 
-        rule.onAllNodesWithContentDescription("RecipeItem")
+        rule.onNode(recipeItem).performClick()
+        rule.onNode(recipeDetailText).assertExists()
     }
 
 }

@@ -10,6 +10,8 @@ import androidx.compose.material.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -43,7 +45,8 @@ fun CustomTextField(
             imeAction = ImeAction.Done
         ),
         modifier = Modifier.padding(10.dp)
-            .border(1.dp, Color.Gray, RoundedCornerShape(27.dp)),
+            .border(1.dp, Color.Gray, RoundedCornerShape(27.dp))
+            .semantics { contentDescription = hintText },
         shape = RoundedCornerShape(8.dp),
         colors = TextFieldDefaults.textFieldColors(
             textColor = Color.Gray,

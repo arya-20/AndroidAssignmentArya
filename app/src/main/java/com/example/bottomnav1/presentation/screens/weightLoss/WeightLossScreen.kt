@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -51,7 +52,6 @@ fun WeightLossScreen(
     viewModel: WeightLossViewModel = viewModel(factory = WeightLossViewModel.Factory),
     onClickToRecipeDetailScreen: (String) -> Unit,
     onClickToAddRecipe: () -> Unit,
-    onIndexChange: (Recipe?) -> Unit,
 
     ) {
     //collect recipes from the view model
@@ -70,7 +70,7 @@ fun WeightLossScreen(
                     modifier = Modifier.padding(top = 26.dp, start = 16.dp, bottom = 8.dp)
                 )
                 Text(
-                    text = "To lose weight, you need low carb, high protein meals. Minimize sugary or oily food. You can add your Weight Loss recipes below using the add button.",
+                    text = stringResource(id = R.string.weight_loss_text),
                     style = MaterialTheme.typography.body2,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )

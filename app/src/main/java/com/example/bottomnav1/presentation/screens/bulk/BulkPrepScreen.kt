@@ -1,5 +1,4 @@
 package com.example.bottomnav1.presentation.screens.bulk
-// BulkPrepScreen.kt
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.background
@@ -32,6 +31,7 @@ import androidx.compose.ui.graphics.Color.Companion.Gray
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -73,7 +73,7 @@ fun BulkPrepScreen(
                     )
 
                 Text(
-                    text = "Preparing meals in bulk can save you time and money. You can add your bulk prep recipes below using the add button.",
+                    text = stringResource(id = R.string.bulk_prep_text),
                     style = MaterialTheme.typography.body2,
                     modifier = Modifier.padding(horizontal = 16.dp)
                 )
@@ -103,9 +103,6 @@ fun BulkPrepScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-
-
             val recipeState = recipeState.data ?: emptyList()
             if (recipeState.isNotEmpty()) {
                 Log.d("RecipeState", "RecipeState is not empty. Size: ${recipeState.size}")
@@ -154,6 +151,7 @@ fun RecipeSection(title: String, recipe: List<Recipe>, onClick: (String) -> Unit
                     .clickable(
                         onClick = { isSelected.value = !isSelected.value }
                     )
+                    .semantics { contentDescription = "Recipe List" }
             ) {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
                     items(recipe) { recipe ->

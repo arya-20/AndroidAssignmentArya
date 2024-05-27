@@ -47,10 +47,10 @@ class ContactDAO(private val database: DatabaseReference) {
     suspend fun getCurrentContact(): Contact? {
 
         val currentUserAuthId =
-            getCurrentUserAuthId() // Implement this method to fetch the current user's authentication ID
+            getCurrentUserAuthId()
         return try {
             val snapshot = database.child(currentUserAuthId!!).get()
-                .await() // Fetch contact using user's authentication ID
+                .await()
             snapshot.getValue(Contact::class.java)
         } catch (e: Exception) {
             null
@@ -58,7 +58,7 @@ class ContactDAO(private val database: DatabaseReference) {
     }
 
     suspend fun updateContact(contact: Contact) {
-        val currentUserAuthId = getCurrentUserAuthId()// Ensure contact ID is not null
+        val currentUserAuthId = getCurrentUserAuthId()
         if (currentUserAuthId != null) {
             try {
                 database.child(currentUserAuthId).setValue(contact).await()
@@ -72,7 +72,7 @@ class ContactDAO(private val database: DatabaseReference) {
     suspend fun getContactById(contactId: String): Contact? {
         return try {
             val snapshot =
-                database.child(contactId).get().await() // Get the contact by ID
+                database.child(contactId).get().await()
             snapshot.getValue(Contact::class.java)
         } catch (e: Exception) {
             null

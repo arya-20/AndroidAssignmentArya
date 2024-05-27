@@ -1,7 +1,6 @@
 package com.example.bottomnav1.screens
 
 import androidx.compose.ui.test.hasText
-import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.example.bottomnav1.R
 import org.junit.Before
@@ -13,19 +12,11 @@ import org.junit.runners.MethodSorters
 class StartScreenTests : ScreenTests() {
 
 
-
     @Before
     override fun setUp() {
         super.setUp()
 
     }
-
-        @Test
-        fun `go to the login screen`() {
-            rule.onNodeWithText("Start").performClick()
-        }
-
-
         @Test
         fun `check the default state of the start screen`() {
             rule.onNode(appLogo).assertExists()
@@ -38,9 +29,7 @@ class StartScreenTests : ScreenTests() {
         @Test
         fun `move to the login page`(){
             rule.onNode(startButton).performClick()
-            //on login page
-            val pageTitle =
-                hasText(rule.activity.getString(R.string.login_screen_title))
+            val pageTitle = hasText(rule.activity.getString(R.string.login_screen_title))
             rule.onNode(pageTitle).assertExists()
         }
 

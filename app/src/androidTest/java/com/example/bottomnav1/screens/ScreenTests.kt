@@ -29,21 +29,30 @@ open abstract class ScreenTests {
     val EMAIL = "email"
     val PASSWORD = "password"
     val RECIPE = "recipe"
-    val VALID_EMAIL = "test@gmail.com"
+    val INGREDIENTS = "ingredients testing example"
+    val INSTRUCTIONS = "instructions testing example"
+    val CATEGORY = "category testing example"
+
+    val VALID_EMAIL = "testuser@gmail.com"
     val VALID_PASSWORD = "password"
+    val INVALID_EMAIL = "kjdfkhadfhks"
+    val INVALID_PASSWORD = "dsifhkjds"
 
-
+    val recipeListItem = ("$RECIPE")
 
     lateinit var submitButton : SemanticsMatcher
     //For start screen
     lateinit var appLogo: SemanticsMatcher
-    lateinit var startScreenText : SemanticsMatcher
     lateinit var startScreenTitle : SemanticsMatcher
     lateinit var startScreenTitle2 : SemanticsMatcher
     lateinit var startButton : SemanticsMatcher
 
     lateinit var recipeTextField: SemanticsMatcher
     lateinit var bulkScreenText : SemanticsMatcher
+    lateinit var veganScreenText : SemanticsMatcher
+    lateinit var weightGainScreenText : SemanticsMatcher
+    lateinit var weightLossScreenText : SemanticsMatcher
+
     lateinit var recipeDetailText : SemanticsMatcher
 
 
@@ -54,8 +63,6 @@ open abstract class ScreenTests {
 
     lateinit var currentWeightTextField : SemanticsMatcher
     lateinit var targetWeightTextField : SemanticsMatcher
-
-
 
     //For home screen
     val listItem = hasText("$EMAIL $PASSWORD $RECIPE")
@@ -80,27 +87,33 @@ open abstract class ScreenTests {
 
     //For edit screen
     lateinit var editScreenText : SemanticsMatcher
+    lateinit var recipeList : SemanticsMatcher
+    lateinit var recipeItem : SemanticsMatcher
+    lateinit var nameField : SemanticsMatcher
+    lateinit var categoryField : SemanticsMatcher
+    lateinit var ingredientsField : SemanticsMatcher
+    lateinit var instructionsField : SemanticsMatcher
+
 
     @Before
     open fun setUp() {
-        val BUTTON_POSTFIX = " button"
         appLogo = hasContentDescription("Logo")
-        forgotPasswordButton = hasContentDescription( rule.activity.getString(R.string.forgot_password) )
-        submitButton = hasContentDescription(rule.activity.getString(R.string.submit_button) )
-        signUpButton = hasContentDescription(rule.activity.getString(R.string.sign_up_button) ) //REMOVE THE BUTTON POSTFIXES
-        backButton = hasContentDescription(rule.activity.getString(R.string.back_button) + BUTTON_POSTFIX)
-        deleteButton = hasContentDescription(rule.activity.getString(R.string.delete) + BUTTON_POSTFIX)
-        addButton = hasContentDescription(rule.activity.getString(R.string.add) + BUTTON_POSTFIX)
-        trackButton = hasContentDescription(rule.activity.getString(R.string.track))
-        unitToggle = hasContentDescription("weightUnit")
+        forgotPasswordButton = hasContentDescription( rule.activity.getString(R.string.forgot_password) ) and hasClickAction()
+        submitButton = hasContentDescription(rule.activity.getString(R.string.submit_button)) and hasClickAction()
+        signUpButton = hasContentDescription(rule.activity.getString(R.string.sign_up_button)) and hasClickAction()
+        backButton = hasContentDescription(rule.activity.getString(R.string.back_button)) and hasClickAction()
+        deleteButton = hasContentDescription(rule.activity.getString(R.string.delete)) and hasClickAction()
+        addButton = hasContentDescription(rule.activity.getString(R.string.add)) and hasClickAction()
+        trackButton = hasText(rule.activity.getString(R.string.track)) and hasClickAction()
+        unitToggle = hasContentDescription("weightUnit") and hasClickAction()
 
-        bulkPrepScreenButton = hasContentDescription("Bulk Prep")
-        weightLossScreenButton = hasContentDescription("Weight Loss")
-        weightGainScreenButton = hasContentDescription("Weight Gain")
-        veganScreenButton = hasContentDescription("Vegan")
-        trackScreenButton = hasContentDescription("Track")
-
-//        recipeItem = hasContentDescription("RecipeItem")
+        bulkPrepScreenButton = hasContentDescription(rule.activity.getString(R.string.bulk_prep)) and hasClickAction()
+        weightLossScreenButton = hasContentDescription(rule.activity.getString(R.string.weight_loss)) and hasClickAction()
+        weightGainScreenButton = hasContentDescription(rule.activity.getString(R.string.weight_gain)) and hasClickAction()
+        veganScreenButton = hasContentDescription(rule.activity.getString(R.string.vegan)) and hasClickAction()
+        trackScreenButton = hasContentDescription(rule.activity.getString(R.string.track)) and hasClickAction()
+        recipeList = hasContentDescription("Recipe List") and hasClickAction()
+        recipeItem = hasText("recipe") and hasClickAction()
 
 
         startScreenTitle = hasText(rule.activity.getString(R.string.start_title))
@@ -108,20 +121,33 @@ open abstract class ScreenTests {
         startButton = hasText(rule.activity.getString(R.string.start_button))and hasClickAction()
 
         loginTitle = hasText((rule.activity.getString(R.string.login_screen_title)))
-        emailTextField = hasContentDescription(rule.activity.getString(R.string.email))
-        passwordTextField = hasContentDescription(rule.activity.getString(R.string.password))
+        emailTextField = hasText(rule.activity.getString(R.string.email))
+        passwordTextField = hasText(rule.activity.getString(R.string.password))
+
         recipeTextField = hasContentDescription(rule.activity.getString(R.string.recipe_hint))
-
-        currentWeightTextField = hasContentDescription(rule.activity.getString(R.string.current_weight))
-        targetWeightTextField = hasContentDescription(rule.activity.getString(R.string.target_weight))
-
+        currentWeightTextField = hasText("Current Weight")
+        targetWeightTextField = hasText("Target Weight")
         homeScreenText = hasText(rule.activity.getString(R.string.home))
         editScreenText = hasText(rule.activity.getString(R.string.edit))
+        bulkScreenText = hasText(rule.activity.getString(R.string.bulk_prep_text))
+        veganScreenText = hasText(rule.activity.getString(R.string.vegan_screen_text))
+        weightGainScreenText = hasText(rule.activity.getString(R.string.weight_gain_text))
+        weightLossScreenText = hasText(rule.activity.getString(R.string.weight_loss_text))
+
+        recipeDetailText = hasText("Recipe Details")
+        nameField = hasText(rule.activity.getString(R.string.name))
+        categoryField = hasText(rule.activity.getString(R.string.category))
+        ingredientsField = hasText(rule.activity.getString(R.string.ingredients))
+        instructionsField = hasText(rule.activity.getString(R.string.instructions))
 
     }
 
-    //Use for valid and invalid sign ins - use default values for generic log in
+    fun `move to login`(){
+        rule.onNode(startButton).performClick()
+    }
+
     fun `log in`(email:String = "testuser@gmail.com", password: String = "password") {
+        `move to login`()
         rule.onNode(emailTextField).printToLog("UI_TEST");
         rule.onNode(emailTextField).performTextInput(email)
         rule.onNode(passwordTextField).performTextInput(password)
@@ -137,6 +163,11 @@ open abstract class ScreenTests {
         rule.onNode(recipeTextField).performTextInput(RECIPE)
 
         rule.onNode(addButton).performClick()
+    }
+
+    fun `go to bulk`(){      //to reach the add page
+        `log in`()
+        rule.onNode(bulkPrepScreenButton).performClick()
     }
 
 

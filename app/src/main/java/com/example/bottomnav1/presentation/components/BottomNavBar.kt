@@ -11,6 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -22,7 +24,8 @@ fun BottomNavBar(navController: NavController) {
     BottomNavigation(
         modifier = Modifier
             .background(color = Color.Gray, shape = RoundedCornerShape(16.dp))
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .semantics { contentDescription = "bottom_nav" },
         contentColor = Color.White,
         elevation = 8.dp
     ) {

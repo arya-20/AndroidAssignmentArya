@@ -73,7 +73,7 @@ fun TrackScreen(
                 label = stringResource(id = R.string.target_weight),
                 text = targetWeight,
                 onValueChange = { targetWeight = it },
-                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             )
 
             Spacer(modifier = Modifier.height(16.dp))

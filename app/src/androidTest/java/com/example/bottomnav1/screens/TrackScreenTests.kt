@@ -13,7 +13,8 @@ class TrackScreenTests : ScreenTests() {
         super.setUp()
     }
 
-    private fun `go to the track screen`() {
+    @Test
+     fun `go to the track screen`() {
         `log in`()
         rule.onNode(trackScreenButton).performClick()
     }
@@ -21,8 +22,8 @@ class TrackScreenTests : ScreenTests() {
     @Test
     fun `check the default state of the track screen`() {
         `go to the track screen`()
-
-        rule.onNodeWithText("Track Progress").assertExists()
+        val pageTitle = hasText("Track Progress")
+        rule.onNode(pageTitle).assertExists()
         rule.onNode(currentWeightTextField).assertExists()
         rule.onNode(targetWeightTextField).assertExists()
         rule.onNode(unitToggle).assertExists()

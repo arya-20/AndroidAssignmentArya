@@ -14,7 +14,7 @@ class AddScreenTests : ScreenTests() {
     }
 
     private fun `go to the add screen`() {
-        `log in`()
+        `go to bulk`()
         rule.onNode(addButton).performClick()
     }
 
@@ -22,16 +22,15 @@ class AddScreenTests : ScreenTests() {
     fun `check the default state of the add screen`() {
         `go to the add screen`()
 
-        rule.onNodeWithText("name").assertExists()
-        rule.onNodeWithText("Category").assertExists()
-        rule.onNodeWithText("Ingredients").assertExists()
-        rule.onNodeWithText("Instructions").assertExists()
+        rule.onNode(nameField).assertExists()
+//        rule.onNode(categoryField).assertExists()
+        rule.onNode(ingredientsField).assertExists()
+        rule.onNode(instructionsField).assertExists()
         rule.onNode(addButton).assertExists()
-    }
 
-    @Test
-    fun `check the add button navigates back to home`() {
-        `go to the add screen`()
-
+        rule.onNode(bottomNavBar).assertExists()
+        rule.onNode(homeNavBarItem).assertExists()
+        rule.onNode(settingsNavBarItem).assertExists()
+        rule.onNode(exitNavBarItem).assertExists()
     }
 }

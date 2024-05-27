@@ -13,8 +13,8 @@ class WeightLossScreenTests : ScreenTests() {
         super.setUp()
     }
 
-     @Test
-     fun `go to the weight loss screen`() {
+    @Test
+    fun `go to the weight loss screen`() {
         `log in`()
         rule.onNode(weightLossScreenButton).performClick()
     }
@@ -23,29 +23,31 @@ class WeightLossScreenTests : ScreenTests() {
     fun `check the default state of the weight loss screen`() {
         `go to the weight loss screen`()
 
-        rule.onNodeWithText("weight loss Recipes").assertExists()
+        val pageTitle = hasText("Weight Loss Recipes")
+        rule.onNode(pageTitle).assertExists()
+        rule.onNode(weightGainScreenText).assertExists()
+//        rule.onNode(recipeListItem).assertExists()
         rule.onNode(addButton).assertExists()
-        //Nav bar
         rule.onNode(bottomNavBar).assertExists()
         rule.onNode(homeNavBarItem).assertExists()
         rule.onNode(settingsNavBarItem).assertExists()
         rule.onNode(exitNavBarItem).assertExists()
     }
 
+    @Test
+    fun `go to the add screen`() {
+        `go to the weight loss screen`()
+        rule.onNode(addButton).performClick()
+        val pageTitle = hasText("Add ")
+        rule.onNode(pageTitle).assertExists()
+    }
 
     @Test
     fun `select a recipe and navigate to the recipe detail screen`() {
         `go to the weight loss screen`()
 
-        rule.onAllNodesWithContentDescription("RecipeItem")
+        rule.onNode(recipeItem).performClick()
         rule.onNode(recipeDetailText).assertExists()
-    }
-
-    @Test
-    fun `check if the list of recipes is displayed`() {
-        `go to the weight loss screen`()
-
-        rule.onAllNodesWithContentDescription("RecipeItem")
     }
 
 }

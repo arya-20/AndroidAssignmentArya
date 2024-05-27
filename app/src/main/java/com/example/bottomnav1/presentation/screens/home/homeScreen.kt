@@ -32,9 +32,7 @@ fun HomeScreen(
 ) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        bottomBar = {
-            BottomNavBar(navController = navController)
-        }
+        bottomBar = { BottomNavBar(navController = navController) }
     ) {
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -45,7 +43,7 @@ fun HomeScreen(
                 verticalArrangement = Arrangement.spacedBy(25.dp)
             ) {
                 Text(
-                    text = "Home",
+                    text = "Home ",
                     style = MaterialTheme.typography.h4,
                     color = Color.White,
                     modifier = Modifier.padding(top = 10.dp, start = 16.dp, bottom = 8.dp)

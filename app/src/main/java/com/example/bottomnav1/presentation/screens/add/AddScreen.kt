@@ -24,8 +24,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
@@ -61,7 +59,7 @@ fun AddScreen(vm: AddViewModel = viewModel(factory = AddViewModel.Factory),
 
             androidx.compose.material.Text(
                 modifier = Modifier.align(Alignment.CenterHorizontally),
-                text = stringResource(R.string.add),
+                text = ("Add "),
                 textAlign = TextAlign.Center,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
@@ -70,11 +68,8 @@ fun AddScreen(vm: AddViewModel = viewModel(factory = AddViewModel.Factory),
             Column {
 
                 CustomTextField(
-                    modifier = Modifier.semantics {
-                        contentDescription = "Name"
-                    },
+                    modifier = Modifier,
                     stringResource(R.string.name),
-
                     text = vm.name,
                     onValueChange = { vm.name = it },
                     errorMessage = stringResource(R.string.name_error),
@@ -88,9 +83,7 @@ fun AddScreen(vm: AddViewModel = viewModel(factory = AddViewModel.Factory),
                 )
 
                 CustomTextField(
-                    modifier = Modifier.semantics {
-                        contentDescription = "Ingredients"
-                    },
+                    modifier = Modifier,
                     stringResource(R.string.ingredients),
                     text = vm.ingredients,
                     onValueChange = { vm.ingredients = it },
@@ -99,9 +92,7 @@ fun AddScreen(vm: AddViewModel = viewModel(factory = AddViewModel.Factory),
                 )
 
                 CustomTextField(
-                    modifier = Modifier.semantics {
-                        contentDescription = "instructions"
-                    },
+                    modifier = Modifier,
                     stringResource(R.string.instructions),
                     text = vm.instructions,
                     onValueChange = { vm.instructions = it },

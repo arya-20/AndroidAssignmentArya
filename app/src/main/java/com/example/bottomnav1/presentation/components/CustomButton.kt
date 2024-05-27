@@ -30,7 +30,7 @@ fun CustomButton(
         modifier = Modifier
             .padding(horizontal = 10.dp)
             .width(buttonWidth.dp)
-            .height(buttonHeight.dp).semantics { contentDescription = text.plus("button") },
+            .height(buttonHeight.dp).semantics { contentDescription = text.plus("") },
     ) {
         Text(
             text = text,

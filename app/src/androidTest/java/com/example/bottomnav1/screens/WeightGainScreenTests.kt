@@ -13,39 +13,41 @@ class WeightGainScreenTests : ScreenTests() {
         super.setUp()
     }
 
-     @Test
-     fun `go to the weight gain screen`() {
+    @Test
+    fun `go to the weight gain screen`() {
         `log in`()
         rule.onNode(weightGainScreenButton).performClick()
     }
 
     @Test
-    fun `check the default state of the bulk screen`() {
+    fun `check the default state of the weight gain screen`() {
         `go to the weight gain screen`()
 
-        rule.onNodeWithText("weight gain Recipes").assertExists()
+        val pageTitle = hasText("Weight Gain Recipes")
+        rule.onNode(pageTitle).assertExists()
+        rule.onNode(weightGainScreenText).assertExists()
+//        rule.onNode(recipeListItem).assertExists()
         rule.onNode(addButton).assertExists()
-        //Nav bar
         rule.onNode(bottomNavBar).assertExists()
         rule.onNode(homeNavBarItem).assertExists()
         rule.onNode(settingsNavBarItem).assertExists()
         rule.onNode(exitNavBarItem).assertExists()
     }
 
+    @Test
+    fun `go to the add screen`() {
+        `go to the weight gain screen`()
+        rule.onNode(addButton).performClick()
+        val pageTitle = hasText("Add ")
+        rule.onNode(pageTitle).assertExists()
+    }
 
     @Test
     fun `select a recipe and navigate to the recipe detail screen`() {
         `go to the weight gain screen`()
 
-        rule.onAllNodesWithContentDescription("RecipeItem")
+        rule.onNode(recipeItem).performClick()
         rule.onNode(recipeDetailText).assertExists()
-    }
-
-    @Test
-    fun `check if the list of recipes is displayed`() {
-        `go to the weight gain screen`()
-
-        rule.onAllNodesWithContentDescription("RecipeItem")
     }
 
 }
